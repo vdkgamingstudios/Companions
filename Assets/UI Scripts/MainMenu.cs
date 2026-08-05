@@ -12,7 +12,7 @@ public class MainMenu : MonoBehaviour
     public GameObject Warning;
     public void PlayGame()
     {
-        SceneManager.LoadScene("MovementTest"); //Put the scene it should change to here
+        SceneManager.LoadScene("GameSceneV1"); //Put the scene it should change to here
     }
 
     public void TurnOnForOneSecond()

@@ -21,6 +21,9 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
+        //if (PauseMenu.isPaused)
+        //    return;
+
         inputManager.HandleAllInputs();
     }
 

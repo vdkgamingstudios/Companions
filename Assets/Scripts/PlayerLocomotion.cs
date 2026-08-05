@@ -47,6 +47,18 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void HandleAllMovement() 
     {
+        //if (PauseMenu.isPaused)
+        //{
+        //    playerRigidbody.velocity = Vector3.zero;
+        //    return;
+        //}
+
+        if (UIManager.Instance.IsMenuOpen)
+        {
+            playerRigidbody.velocity = Vector3.zero;
+            return;
+        }
+
         HandleFallingAndLanding();
 
         if (playerManager.isInteracting)

@@ -36,7 +36,17 @@ public class CameraManager : MonoBehaviour
 
     public void HandleAllCameraMovement() 
     {
+        //Freeze Fully
+        //if (PauseMenu.isPaused)
+        //    return;
+
+        if (UIManager.Instance.IsMenuOpen) 
+        {
+            return;
+        }
+
         FollowTarget();
+
         RotateCamera();
         HandleCameraCollisions();
     }
@@ -83,7 +93,7 @@ public class CameraManager : MonoBehaviour
 
         if (Mathf.Abs(targetPosition) < minimumCollisionOffSet) 
         {
-            targetPosition = targetPosition - minimumCollisionOffSet;
+            targetPosition = -minimumCollisionOffSet;  //targetPosition = targetPosition - minimumCollisionOffSet;
         }
 
         cameraVectorPosition.z = Mathf.Lerp(cameraTransform.localPosition.z, targetPosition, 0.2f);

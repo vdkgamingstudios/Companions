@@ -172,7 +172,19 @@ public class InputManager : MonoBehaviour
         if (pause_Input)
         {
             pause_Input = false;
-            UIManager.Instance.TogglePause();
+
+            if (!UIManager.Instance.IsMenuOpen)
+            {
+                UIManager.Instance.TogglePause();
+            }
+            else if (UIManager.Instance.CurrentMenu == UIManager.MenuType.Pause)
+            {
+                UIManager.Instance.HandlePauseEscape();
+            }
+            else
+            {
+                UIManager.Instance.CloseMenus();
+            }
         }
 
         if (inventory_Input)

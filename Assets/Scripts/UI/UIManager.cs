@@ -24,6 +24,12 @@ public class UIManager : MonoBehaviour
     public GameObject journalMenu;
     //public GameObject settingsMenu;
 
+    [Header("Pause Menu Sub Menus")]
+    [SerializeField] private GameObject settingsMenu;
+    [SerializeField] private GameObject controlsMenu;
+    [SerializeField] private GameObject displayMenu;
+    [SerializeField] private GameObject soundMenu;
+
     [Header("UI")]
     public GameObject firstPauseButton;
 
@@ -127,6 +133,68 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void OpenPauseMenu()
+    {
+        ClosePausePanels();
+        pauseMenu.SetActive(true);
+    }
+
+    public void OpenSettingsMenu()
+    {
+        ClosePausePanels();
+        settingsMenu.SetActive(true);
+    }
+
+    public void OpenControlsMenu()
+    {
+        ClosePausePanels();
+        controlsMenu.SetActive(true);
+    }
+
+    public void OpenDisplayMenu()
+    {
+        ClosePausePanels();
+        displayMenu.SetActive(true);
+    }
+
+    public void OpenSoundMenu()
+    {
+        ClosePausePanels();
+        soundMenu.SetActive(true);
+    }
+
+    public void HandlePauseEscape()
+    {
+        if (soundMenu.activeSelf)
+        {
+            OpenSettingsMenu();
+            return;
+        }
+
+        if (displayMenu.activeSelf)
+        {
+            OpenSettingsMenu();
+            return;
+        }
+
+        if (controlsMenu.activeSelf)
+        {
+            OpenSettingsMenu();
+            return;
+        }
+
+        if (settingsMenu.activeSelf)
+        {
+            OpenPauseMenu();
+            return;
+        }
+
+        if (pauseMenu.activeSelf)
+        {
+            CloseMenus();
+        }
+    }
+
     public void CloseMenus()
     {
         CloseMenuObjects();
@@ -149,6 +217,15 @@ public class UIManager : MonoBehaviour
         //settingsMenu.SetActive(false);
     }
 
+    private void ClosePausePanels()
+    {
+        pauseMenu.SetActive(false);
+        settingsMenu.SetActive(false);
+        controlsMenu.SetActive(false);
+        displayMenu.SetActive(false);
+        soundMenu.SetActive(false);
+    }
+
     public void ReturnToMainMenu()
     {
         Time.timeScale = 1;
@@ -159,18 +236,6 @@ public class UIManager : MonoBehaviour
     {
         Application.Quit();
     }
-
-    //public void TurnOnForOneSecond()
-    //{
-    //    StartCoroutine(TurnOnTemporarily());
-    //}
-
-    //private IEnumerator TurnOnTemporarily()
-    //{
-    //    Warning.SetActive(true);
-    //    yield return new WaitForSeconds(1f);
-    //    Warning.SetActive(false);
-    //}
 
     public void ShowPopup(string message)
     {

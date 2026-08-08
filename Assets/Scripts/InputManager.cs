@@ -24,6 +24,7 @@ public class InputManager : MonoBehaviour
     public bool pause_Input;
     public bool inventory_Input;
     public bool journal_Input;
+    public bool interact_Input;
     //public bool settings_Input; //For later
 
     private MenuNavigation menuNavigation;
@@ -52,6 +53,7 @@ public class InputManager : MonoBehaviour
             playerControls.PlayerActions.B.performed += i => b_Input = true;
             playerControls.PlayerActions.B.canceled += i => b_Input = false;
             playerControls.PlayerActions.Jump.performed += i => jump_Input = true;
+            playerControls.PlayerActions.Interact.performed += i => interact_Input = true;
 
             playerControls.Menus.Pause.performed += i => pause_Input = true;
             playerControls.Menus.Inventory.performed += i => inventory_Input = true;

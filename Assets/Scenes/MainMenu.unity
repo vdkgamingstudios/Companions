@@ -689,6 +689,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -404.99997
       objectReference: {fileID: 0}
+    - target: {fileID: 5472138370115220523, guid: 07288e05b28b2734cba58170443dd396, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CharacterCreation
+      objectReference: {fileID: 0}
     - target: {fileID: 6271050413608605647, guid: 07288e05b28b2734cba58170443dd396, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -407

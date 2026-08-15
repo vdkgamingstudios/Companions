@@ -10,9 +10,9 @@ public class MainMenu : MonoBehaviour
     //Main Menu Warning
     [Header("Warning")]
     public GameObject Warning;
-    public void PlayGame()
+    public void CharacterCreation() //PlayGame Old
     {
-        SceneManager.LoadScene("GameSceneV1"); //Put the scene it should change to here
+        SceneManager.LoadScene("CharacterCreation"); //Put the scene it should change to here
     }
 
     public void TurnOnForOneSecond()

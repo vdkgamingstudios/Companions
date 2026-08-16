@@ -9,6 +9,10 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    [Header("UI Flags")]
+    public bool menuWindowIsOpen = false; //Inventory screen, equipment menu etc
+    public bool popUpWindowIsOpen = false; //Item pick up, dialogue pop up
+
     public enum MenuType
     {
         None,
@@ -33,9 +37,6 @@ public class UIManager : MonoBehaviour
     [Header("UI")]
     public GameObject firstPauseButton;
 
-    //[Header("Warning")]
-    //public GameObject Warning;
-
     //Menu Checks
     public MenuType CurrentMenu { get; private set; } = MenuType.None;
     public bool IsMenuOpen => CurrentMenu != MenuType.None;
@@ -46,6 +47,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float popupDuration = 1.5f;
 
     private Coroutine popupCoroutine;
+
 
     void Start()
     {

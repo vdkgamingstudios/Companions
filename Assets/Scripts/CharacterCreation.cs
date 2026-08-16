@@ -10,7 +10,14 @@ public class CharacterCreation : MonoBehaviour
 
     public void ConfirmName()
     {
-        GameManager.Instance.playerName = nameInput.text;
+        if (string.IsNullOrWhiteSpace(nameInput.text))
+        {
+            GameManager.Instance.playerName = "Asura";
+        }
+        else
+        {
+            GameManager.Instance.playerName = nameInput.text;
+        }
 
         SceneManager.LoadScene("GameSceneV1");
     }

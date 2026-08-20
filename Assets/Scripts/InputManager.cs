@@ -27,6 +27,9 @@ public class InputManager : MonoBehaviour
     public bool interact_Input;
     //public bool settings_Input; //For later
 
+    [Header("Dialogue")]
+    public bool dialogueActive = false;
+
     private MenuNavigation menuNavigation;
 
     private void Awake()
@@ -37,6 +40,7 @@ public class InputManager : MonoBehaviour
         menuNavigation = FindObjectOfType<MenuNavigation>();
     }
 
+    //Calling and setting the variables for the player input action map controls to work
     private void OnEnable()
     {
         if (playerControls == null) 
@@ -71,31 +75,23 @@ public class InputManager : MonoBehaviour
 
     public void HandleAllInputs() 
     {
-        //HandlePauseInput();
-        //HandleMenuInput();
-
-        //if (PauseMenu.isPaused)
-        //{
-        //    movementInput = Vector2.zero;
-        //    cameraInput = Vector2.zero;
-
-        //    horizontalInput = 0;
-        //    verticalInput = 0;
-        //    moveAmount = 0;
-
-        //    return;
-        //}
-
         HandleMenuInputs();
 
+        // Menus take priority over normal gameplay input.
         if (UIManager.Instance.IsMenuOpen)
         {
-            movementInput = Vector2.zero;
-            cameraInput = Vector2.zero;
+            ClearGameplayInput();
+            return;
+        }
 
-            horizontalInput = 0;
-            verticalInput = 0;
-            moveAmount = 0;
+        // Dialogue takes priority over normal gameplay input.
+        if (dialogueActive)
+        {
+            ClearGameplayInput();
+
+            playerLocomotion.isSprinting = false;
+
+            animatorManager.UpdateAnimatorValues(0f,0f,false);
 
             return;
         }
@@ -139,36 +135,6 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    //private void HandlePauseInput()
-    //{
-    //    if (!pause_Input)
-    //        return;
-
-    //    pause_Input = false;
-
-    //    PauseMenu pauseMenu = FindObjectOfType<PauseMenu>();
-
-    //    if (PauseMenu.isPaused)
-    //        pauseMenu.Resume();
-    //    else
-    //        pauseMenu.Pause();
-    //}
-
-    //private void HandleMenuInput()
-    //{
-    //    if (inventory_Input)
-    //    {
-    //        inventory_Input = false;
-    //        menuNavigation.ToggleInventory();
-    //    }
-
-    //    if (journal_Input)
-    //    {
-    //        journal_Input = false;
-    //        menuNavigation.ToggleJournal();
-    //    }
-    //}
-
     private void HandleMenuInputs()
     {
         if (pause_Input)
@@ -201,15 +167,40 @@ public class InputManager : MonoBehaviour
             UIManager.Instance.ToggleJournal();
         }
 
-        //if (settings_Input)
-        //{
-        //    settings_Input = false;
-        //    UIManager.Instance.ToggleSettings();
-        //}
     }
 
-    //private void HandleActionInput() 
-    //{ 
+    // Locks or unlocks normal player gameplay input during dialogue.Yarn Spinner's own dialogue input remains available because we're not disabling the Unity Input System.
+    public void SetDialogueActive(bool active)
+    {
+        dialogueActive = active;
 
-    //}
+        if (active)
+        {
+            ClearGameplayInput();
+
+            playerLocomotion.isSprinting = false;
+
+            jump_Input = false;
+            interact_Input = false;
+
+            return;
+        }
+    }
+
+    // Clears movement/camera values currently being used by gameplay.
+    private void ClearGameplayInput()
+    {
+        movementInput = Vector2.zero;
+        cameraInput = Vector2.zero;
+
+        horizontalInput = 0f;
+        verticalInput = 0f;
+
+        cameraInputX = 0f;
+        cameraInputY = 0f;
+
+        moveAmount = 0f;
+
+        b_Input = false;
+    }
 }

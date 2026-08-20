@@ -19,6 +19,6 @@ public class CharacterCreation : MonoBehaviour
             GameManager.Instance.playerName = nameInput.text;
         }
 
-        SceneManager.LoadScene("GameSceneV1");
+        SceneManager.LoadScene("GameSceneV1.2 2");
     }
 }

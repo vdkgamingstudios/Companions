@@ -1,0 +1,39 @@
+﻿title: NPC_Dialogue
+---
+<<declare $trust = 0>>
+Blacksmith: Greetings, Are you here to buy something?
+-> Greet them warmly
+    <<set $trust += 1>>
+    You: Hello! What wares do you have?
+    Blacksmith: Sadly, none at the moment I hope you actually would not ask.
+    <<jump Wares>>
+-> Tell them no
+    You: No thank you.
+    Blacksmith: Well it is your loss.
+    <<jump Nah>>
+===
+title: Wares
+---
+
+Blacksmith: Since I don't have any stock at the moment, would you like some information?
+
+-> Ask for details
+    <<set $trust += 1>>
+    <<if $trust >= 2>>
+        Blacksmith: This is all a test and nothing is real. 
+        Blacksmith: Next time you visit I can make sure I save you some gear.
+    <<else>>
+        Blacksmith: This is all a test and nothing is real.
+    <<endif>>
+-> No thank you
+    Blacksmith: Suit yourself.
+
+    You leave without any other exchange.
+===
+title: Nah
+---
+Blacksmith: Since there is nothing else to say bye now.
+
+You leave without any other exchange.
+===
+

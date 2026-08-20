@@ -236,7 +236,7 @@ public class UIManager : MonoBehaviour
 
     public void PlayGame()
     {
-        SceneManager.LoadScene("GameSceneV1"); //Put the scene it should change to here
+        SceneManager.LoadScene("GameSceneV1.2 2"); //Put the scene it should change to here
         Debug.Log("The player's name is " + GameManager.Instance.playerName);
     }
 

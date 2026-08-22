@@ -6,7 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public string playerName;
+    [Header("Player Data")]
+    public string playerName = "";
 
     private void Awake()
     {

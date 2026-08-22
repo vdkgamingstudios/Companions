@@ -1,0 +1,27 @@
+﻿title: FirstVillager
+---
+<<declare $hasChosenName = false>>
+<<declare $playerName = "">>
+<<if $hasChosenName == false>>
+Villager: Oh, you're awake.
+
+Villager: You look a little confused.
+
+Villager: Do you remember your name?
+
+<<enter_player_name GameManager>>
+<<set $hasChosenName = true>>
+
+{$playerName}: My name is {$playerName}. //Player can be used as a fixed name in the beginning
+
+Villager: {$playerName}...
+
+Villager: Yes, that suits you.
+
+Villager: It's good to meet you, {$playerName}.
+<<else>>
+    
+Villager: Ah, {$playerName}. Good to see you again.
+
+<<endif>>
+===

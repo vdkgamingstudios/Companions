@@ -30,6 +30,9 @@ public class InputManager : MonoBehaviour
     [Header("Dialogue")]
     public bool dialogueActive = false;
 
+    [Header("Name Entry")]
+    public bool nameEntryActive = false;
+
     private MenuNavigation menuNavigation;
 
     private void Awake()
@@ -75,16 +78,30 @@ public class InputManager : MonoBehaviour
 
     public void HandleAllInputs() 
     {
+        //If the player is currently entering their name, don't allow pause/inventory/journal/gameplay controls.
+        if (nameEntryActive)
+        {
+            ClearGameplayInput();
+
+            pause_Input = false;
+            inventory_Input = false;
+            journal_Input = false;
+            jump_Input = false;
+            interact_Input = false;
+
+            return;
+        }
+
         HandleMenuInputs();
 
-        // Menus take priority over normal gameplay input.
+        //Menus take priority over normal gameplay input.
         if (UIManager.Instance.IsMenuOpen)
         {
             ClearGameplayInput();
             return;
         }
 
-        // Dialogue takes priority over normal gameplay input.
+        //Dialogue takes priority over normal gameplay input.
         if (dialogueActive)
         {
             ClearGameplayInput();
@@ -169,7 +186,7 @@ public class InputManager : MonoBehaviour
 
     }
 
-    // Locks or unlocks normal player gameplay input during dialogue.Yarn Spinner's own dialogue input remains available because we're not disabling the Unity Input System.
+    //Locks or unlocks normal player gameplay input during dialogue.Yarn Spinner's own dialogue input remains available because we're not disabling the Unity Input System.
     public void SetDialogueActive(bool active)
     {
         dialogueActive = active;
@@ -187,7 +204,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    // Clears movement/camera values currently being used by gameplay.
+    //Clears movement/camera values currently being used by gameplay.
     private void ClearGameplayInput()
     {
         movementInput = Vector2.zero;
@@ -202,5 +219,23 @@ public class InputManager : MonoBehaviour
         moveAmount = 0f;
 
         b_Input = false;
+    }
+
+    public void SetNameEntryActive(bool active)
+    {
+        nameEntryActive = active;
+
+        if (active)
+        {
+            ClearGameplayInput();
+
+            pause_Input = false;
+            inventory_Input = false;
+            journal_Input = false;
+            jump_Input = false;
+            interact_Input = false;
+
+            playerLocomotion.isSprinting = false;
+        }
     }
 }

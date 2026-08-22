@@ -12,7 +12,7 @@ public class MainMenu : MonoBehaviour
     public GameObject Warning;
     public void CharacterCreation() //PlayGame Old
     {
-        SceneManager.LoadScene("CharacterCreation"); //Put the scene it should change to here
+        SceneManager.LoadScene("GameSceneV1.2 3"); //Put the scene it should change to here
     }
 
     public void TurnOnForOneSecond()

@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
     [Header("Player Data")]
     public string playerName = "";
 
+    [Header("Relationships")]
+    public int villagerAffection = 0;//Testing and will be reworked for specific characters later on
+
     private void Awake()
     {
         if (Instance == null)

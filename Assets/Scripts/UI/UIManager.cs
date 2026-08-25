@@ -19,14 +19,16 @@ public class UIManager : MonoBehaviour
         Pause,
         Inventory,
         Journal,
-        Settings
-    }
+        PlayerStats,
+        Relationships
+    } //Settings use to be there
 
     [Header("Menus")]
     public GameObject pauseMenu;
     public GameObject inventoryMenu;
     public GameObject journalMenu;
-    //public GameObject settingsMenu;
+    public GameObject playerStatsMenu;
+    public GameObject relationshipsMenu;
 
     [Header("Pause Menu Sub Menus")]
     [SerializeField] private GameObject settingsMenu;
@@ -49,19 +51,30 @@ public class UIManager : MonoBehaviour
     private Coroutine popupCoroutine;
 
 
-    void Start()
-    {
-        Time.timeScale = 1f;
-    }
-
     private void Awake()
     {
         if (Instance == null)
+        {
             Instance = this;
+        }
         else
+        {
             Destroy(gameObject);
+            return;
+        }
 
-        Time.timeScale = 1;
+        Time.timeScale = 1f;
+    }
+
+    void Start()
+    {
+        Time.timeScale = 1f;
+
+        //Make sure all menus begin closed.
+        CloseMenuObjects();
+        ClosePausePanels();
+
+        CurrentMenu = MenuType.None;
     }
 
     public void TogglePause()
@@ -79,10 +92,15 @@ public class UIManager : MonoBehaviour
         ToggleMenu(MenuType.Journal);
     }
 
-    //public void ToggleSettings()
-    //{
-    //    ToggleMenu(MenuType.Settings);
-    //}
+    public void TogglePlayerStats()
+    {
+        ToggleMenu(MenuType.PlayerStats);
+    }
+
+    public void ToggleRelationships()
+    {
+        ToggleMenu(MenuType.Relationships);
+    }
 
     public void ToggleMenu(MenuType menu)
     {
@@ -98,8 +116,11 @@ public class UIManager : MonoBehaviour
 
     public void OpenMenu(MenuType menu)
     {
+        //Hide all currently open menus.
         CloseMenuObjects();
+        ClosePausePanels();
 
+        //Record which menu we're about to open.
         CurrentMenu = menu;
 
         switch (menu)
@@ -116,22 +137,77 @@ public class UIManager : MonoBehaviour
                 journalMenu.SetActive(true);
                 break;
 
-            //case MenuType.Settings:
-            //    settingsMenu.SetActive(true);
-            //    break;
+            case MenuType.PlayerStats:
+                playerStatsMenu.SetActive(true);
+                break;
+
+            case MenuType.Relationships:
+                relationshipsMenu.SetActive(true);
+                break;
         }
 
-        Time.timeScale = 0;
+        //Pause gameplay while a menu is open.
+        Time.timeScale = 0f;
 
         AudioListener.pause = true;
 
+        //Unlock and display the cursor.
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        if (firstPauseButton != null)
+        //Automatically select the first pause button when the Pause menu is opened.
+        if (menu == MenuType.Pause &&
+            firstPauseButton != null &&
+            EventSystem.current != null)
         {
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(firstPauseButton);
+        }
+    }
+
+    public void NextHubMenu()
+    {
+        switch (CurrentMenu)
+        {
+            case MenuType.Inventory:
+                OpenMenu(MenuType.Journal);
+                break;
+
+            case MenuType.Journal:
+                OpenMenu(MenuType.PlayerStats);
+                break;
+
+            case MenuType.PlayerStats:
+                OpenMenu(MenuType.Relationships);
+                break;
+
+            case MenuType.Relationships:
+                //Loop back to the beginning.
+                OpenMenu(MenuType.Inventory);
+                break;
+        }
+    }
+
+    public void PreviousHubMenu()
+    {
+        switch (CurrentMenu)
+        {
+            case MenuType.Inventory:
+                //Loop backwards to the end.
+                OpenMenu(MenuType.Relationships);
+                break;
+
+            case MenuType.Journal:
+                OpenMenu(MenuType.Inventory);
+                break;
+
+            case MenuType.PlayerStats:
+                OpenMenu(MenuType.Journal);
+                break;
+
+            case MenuType.Relationships:
+                OpenMenu(MenuType.PlayerStats);
+                break;
         }
     }
 
@@ -200,6 +276,7 @@ public class UIManager : MonoBehaviour
     public void CloseMenus()
     {
         CloseMenuObjects();
+        ClosePausePanels();
 
         CurrentMenu = MenuType.None;
 
@@ -209,6 +286,11 @@ public class UIManager : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        if (EventSystem.current != null)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+        }
     }
 
     private void CloseMenuObjects()
@@ -216,7 +298,8 @@ public class UIManager : MonoBehaviour
         pauseMenu.SetActive(false);
         inventoryMenu.SetActive(false);
         journalMenu.SetActive(false);
-        //settingsMenu.SetActive(false);
+        playerStatsMenu.SetActive(false);
+        relationshipsMenu.SetActive(false);
     }
 
     private void ClosePausePanels()

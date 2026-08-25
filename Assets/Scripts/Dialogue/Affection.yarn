@@ -1,0 +1,13 @@
+﻿title: Affection
+---
+Villager: It's good to see you, {$playerName}.
+
+-> It's good to see you too.
+    <<change_affection GameManager "villager" 5>>
+    Villager: I'm glad you feel that way.
+
+-> I'm busy.
+    <<change_affection GameManager "villager" -2>>
+    Villager: Oh... alright.
+
+===

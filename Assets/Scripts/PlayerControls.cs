@@ -408,6 +408,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Player"",
+                    ""type"": ""Button"",
+                    ""id"": ""a36248d2-281b-495c-b376-a7fb38d11380"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Relationship"",
+                    ""type"": ""Button"",
+                    ""id"": ""77ee4efc-ac34-4868-a658-bda08f18b638"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -454,6 +472,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Setting"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""10b34dcf-1bc9-4b8a-8777-b44bf4a61f2c"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Player"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d38e2560-060a-4805-9019-ced5803d8a6d"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Relationship"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -475,6 +515,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Menus_Journal = m_Menus.FindAction("Journal", throwIfNotFound: true);
         m_Menus_Inventory = m_Menus.FindAction("Inventory", throwIfNotFound: true);
         m_Menus_Setting = m_Menus.FindAction("Setting", throwIfNotFound: true);
+        m_Menus_Player = m_Menus.FindAction("Player", throwIfNotFound: true);
+        m_Menus_Relationship = m_Menus.FindAction("Relationship", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -786,6 +828,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Menus_Journal;
     private readonly InputAction m_Menus_Inventory;
     private readonly InputAction m_Menus_Setting;
+    private readonly InputAction m_Menus_Player;
+    private readonly InputAction m_Menus_Relationship;
     /// <summary>
     /// Provides access to input actions defined in input action map "Menus".
     /// </summary>
@@ -813,6 +857,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Menus/Setting".
         /// </summary>
         public InputAction @Setting => m_Wrapper.m_Menus_Setting;
+        /// <summary>
+        /// Provides access to the underlying input action "Menus/Player".
+        /// </summary>
+        public InputAction @Player => m_Wrapper.m_Menus_Player;
+        /// <summary>
+        /// Provides access to the underlying input action "Menus/Relationship".
+        /// </summary>
+        public InputAction @Relationship => m_Wrapper.m_Menus_Relationship;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -851,6 +903,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Setting.started += instance.OnSetting;
             @Setting.performed += instance.OnSetting;
             @Setting.canceled += instance.OnSetting;
+            @Player.started += instance.OnPlayer;
+            @Player.performed += instance.OnPlayer;
+            @Player.canceled += instance.OnPlayer;
+            @Relationship.started += instance.OnRelationship;
+            @Relationship.performed += instance.OnRelationship;
+            @Relationship.canceled += instance.OnRelationship;
         }
 
         /// <summary>
@@ -874,6 +932,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Setting.started -= instance.OnSetting;
             @Setting.performed -= instance.OnSetting;
             @Setting.canceled -= instance.OnSetting;
+            @Player.started -= instance.OnPlayer;
+            @Player.performed -= instance.OnPlayer;
+            @Player.canceled -= instance.OnPlayer;
+            @Relationship.started -= instance.OnRelationship;
+            @Relationship.performed -= instance.OnRelationship;
+            @Relationship.canceled -= instance.OnRelationship;
         }
 
         /// <summary>
@@ -993,5 +1057,19 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSetting(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Player" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPlayer(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Relationship" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRelationship(InputAction.CallbackContext context);
     }
 }

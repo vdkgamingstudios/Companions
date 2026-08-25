@@ -25,6 +25,8 @@ public class InputManager : MonoBehaviour
     public bool inventory_Input;
     public bool journal_Input;
     public bool interact_Input;
+    public bool pStats_Input;
+    public bool relationship_Input;
     //public bool settings_Input; //For later
 
     [Header("Dialogue")]
@@ -65,6 +67,8 @@ public class InputManager : MonoBehaviour
             playerControls.Menus.Pause.performed += i => pause_Input = true;
             playerControls.Menus.Inventory.performed += i => inventory_Input = true;
             playerControls.Menus.Journal.performed += i => journal_Input = true;
+            playerControls.Menus.Player.performed += i => pStats_Input = true;
+            playerControls.Menus.Relationship.performed += i => relationship_Input = true;
             //playerControls.Menus.Setting.performed += i => settings_Input = true; //For later
         }
 
@@ -88,6 +92,8 @@ public class InputManager : MonoBehaviour
             journal_Input = false;
             jump_Input = false;
             interact_Input = false;
+            pStats_Input = false;
+            relationship_Input = false;
 
             return;
         }
@@ -184,6 +190,18 @@ public class InputManager : MonoBehaviour
             UIManager.Instance.ToggleJournal();
         }
 
+        if (pStats_Input)
+        {
+            pStats_Input = false;
+            UIManager.Instance.TogglePlayerStats();
+        }
+
+        if (relationship_Input)
+        {
+            relationship_Input = false;
+            UIManager.Instance.ToggleRelationships();
+        }
+
     }
 
     //Locks or unlocks normal player gameplay input during dialogue.Yarn Spinner's own dialogue input remains available because we're not disabling the Unity Input System.
@@ -234,6 +252,8 @@ public class InputManager : MonoBehaviour
             journal_Input = false;
             jump_Input = false;
             interact_Input = false;
+            pStats_Input = false;
+            relationship_Input = false;
 
             playerLocomotion.isSprinting = false;
         }

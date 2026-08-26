@@ -143,6 +143,14 @@ public class UIManager : MonoBehaviour
 
             case MenuType.Relationships:
                 relationshipsMenu.SetActive(true);
+
+                RelationshipUI relationshipUI = relationshipsMenu.GetComponent<RelationshipUI>();
+
+                if (relationshipUI != null)
+                {
+                    relationshipUI.UpdateRelationshipUI();
+                }
+
                 break;
         }
 

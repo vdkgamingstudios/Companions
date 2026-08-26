@@ -19,6 +19,18 @@ public class InteractionManager : MonoBehaviour
 
     private void Update()
     {
+        // If any menu is open, stop world interaction completely.
+        if (UIManager.Instance != null && UIManager.Instance.IsMenuOpen)
+        {
+            // Forget the currently targeted interactable.
+            currentInteractable = null;
+
+            // Hide the "E - Talk" / "E - Interact" prompt.
+            HideInteractionPrompt();
+
+            return;
+        }
+
         CheckForInteractable();
 
         if (currentInteractable != null &&
@@ -70,7 +82,15 @@ public class InteractionManager : MonoBehaviour
 
     private void HideInteractionPrompt()
     {
-        interactionUI.SetActive(false);
+        if (interactionUI != null)
+        {
+            interactionUI.SetActive(false);
+        }
+
+        if (interactionText != null)
+        {
+            interactionText.text = "";
+        }
     }
 
     public void ClearInteraction()

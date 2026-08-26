@@ -1,21 +1,35 @@
 ﻿title: Affection
 ---
-Midna: It's nice seeing you again, {$playerName}.
-Midna: How are you finding the village?
-
--> I love it here.
-    <<change_affection GameManager "characterone" 5>>
-    {$playerName}: I love it here.
-    <<jump Happy>>
--> I don't like it.
-    <<change_affection GameManager "characterone" -5>>
-    {$playerName}: I don't like it.
-    <<jump Sad>>
+<<if get_affection("characterone") <= 10>>
+    Midna: I don't really feel like talking right now.
+<<else>>
+    <<if get_affection("characterone") >= 30>>
+        Midna: {$playerName}! I'm really glad to see you again.
+    <<elseif get_affection("characterone") >= 20>>
+        Midna: It's nice seeing you again, {$playerName}.
+    <<else>>
+        Midna: Oh, hello {$playerName}.
+    <<endif>>
+    Midna: How are you finding the village?
+    -> I love it here.
+        <<change_affection GameManager "characterone" 10>>
+        {$playerName}: I love it here.
+        <<jump Happy>>
+    -> I don't like it.
+        <<change_affection GameManager "characterone" -10>>
+        {$playerName}: I don't like it.
+        <<jump Sad>>
+<<endif>>
 
 ===
 title: Happy
 ---
-Midna: That makes me happy to hear.
+<<if get_affection("characterone") >= 30>>
+    Midna: That makes me happy to hear.
+    Midna: You know, {$playerName}... I've really started looking forward to seeing you.
+<<else>>
+    Midna: That makes me happy to hear.
+<<endif>>
 ===
 title: Sad
 ---

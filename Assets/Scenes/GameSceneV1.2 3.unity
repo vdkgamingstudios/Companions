@@ -5278,11 +5278,11 @@ MonoBehaviour:
   relationships:
   - npcID: characterone
     displayName: Midna
-    affection: 10
+    affection: 15
     maxAffection: 100
   - npcID: charactertwo
     displayName: Azerith
-    affection: 10
+    affection: 15
     maxAffection: 100
 --- !u!114 &659824935
 MonoBehaviour:

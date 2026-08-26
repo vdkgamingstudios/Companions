@@ -17,4 +17,19 @@ public class YarnRelationships : MonoBehaviour
 
         RelationshipManager.Instance.ChangeAffection(npcID, amount);
     }
+
+    //Allows Yarn dialogue to read an NPC's affection value. Yarn usage: get_affection("characterone")
+    [YarnFunction("get_affection")]
+    public static int GetAffection(string npcID)
+    {
+        if (RelationshipManager.Instance == null)
+        {
+            Debug.LogWarning("RelationshipManager instance not found!");
+            return 0;
+        }
+
+        return RelationshipManager.Instance.GetAffection(
+            npcID
+        );
+    }
 }

@@ -1,13 +1,23 @@
 ﻿title: Affection
 ---
-Villager: It's good to see you, {$playerName}.
+Midna: It's nice seeing you again, {$playerName}.
+Midna: How are you finding the village?
 
--> It's good to see you too.
-    <<change_affection GameManager "villager" 5>>
-    Villager: I'm glad you feel that way.
+-> I love it here.
+    <<change_affection GameManager "characterone" 5>>
+    {$playerName}: I love it here.
+    <<jump Happy>>
+-> I don't like it.
+    <<change_affection GameManager "characterone" -5>>
+    {$playerName}: I don't like it.
+    <<jump Sad>>
 
--> I'm busy.
-    <<change_affection GameManager "villager" -2>>
-    Villager: Oh... alright.
-
+===
+title: Happy
+---
+Midna: That makes me happy to hear.
+===
+title: Sad
+---
+Midna: Oh...
 ===

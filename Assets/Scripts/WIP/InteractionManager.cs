@@ -12,8 +12,9 @@ public class InteractionManager : MonoBehaviour
     [SerializeField] private LayerMask interactableLayer;
 
     [Header("UI")]
-    [SerializeField] private GameObject interactionUI;
-    [SerializeField] private TMP_Text interactionText;
+    [SerializeField] private PlayerUIManager playerUIManager;
+    //[SerializeField] private GameObject interactionUI;
+    //[SerializeField] private TMP_Text interactionText;
 
     private IInteractable currentInteractable;
 
@@ -39,6 +40,8 @@ public class InteractionManager : MonoBehaviour
         {
             Debug.Log("E pressed - interacting!");
 
+            HideInteractionPrompt();
+
             currentInteractable.Interact();
         }
     }
@@ -47,25 +50,15 @@ public class InteractionManager : MonoBehaviour
     {
         currentInteractable = null;
 
-        Ray ray = new Ray(
-            playerCamera.transform.position,
-            playerCamera.transform.forward
-        );
+        Ray ray = new Ray(playerCamera.transform.position,playerCamera.transform.forward);
 
-        if (Physics.Raycast(
-            ray,
-            out RaycastHit hit,
-            interactionRange,
-            interactableLayer))
+        if (Physics.Raycast(ray,out RaycastHit hit,interactionRange,interactableLayer))
         {
-            currentInteractable =
-                hit.collider.GetComponentInParent<IInteractable>();
+            currentInteractable =hit.collider.GetComponentInParent<IInteractable>();
 
             if (currentInteractable != null)
             {
-                ShowInteractionPrompt(
-                    currentInteractable.GetInteractionText()
-                );
+                ShowInteractionPrompt(currentInteractable.GetInteractionText());
 
                 return;
             }
@@ -76,21 +69,32 @@ public class InteractionManager : MonoBehaviour
 
     private void ShowInteractionPrompt(string text)
     {
-        interactionUI.SetActive(true);
-        interactionText.text = "E - " + text;
+        if (playerUIManager == null)
+        {
+            return;
+        }
+
+        //For example, if GetInteractionText() returns "Talk", this displays "E - Talk".
+        playerUIManager.ShowInteractionMessage( "E - " + text);
+        //interactionUI.SetActive(true);
+        //interactionText.text = "E - " + text;
     }
 
     private void HideInteractionPrompt()
     {
-        if (interactionUI != null)
+        if (playerUIManager != null)
         {
-            interactionUI.SetActive(false);
+            playerUIManager.HideInteractionMessage();
         }
+        //if (interactionUI != null)
+        //{
+        //    interactionUI.SetActive(false);
+        //}
 
-        if (interactionText != null)
-        {
-            interactionText.text = "";
-        }
+        //if (interactionText != null)
+        //{
+        //    interactionText.text = "";
+        //}
     }
 
     public void ClearInteraction()

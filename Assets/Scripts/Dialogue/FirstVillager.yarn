@@ -2,25 +2,26 @@
 ---
 <<declare $hasChosenName = false>>
 <<declare $playerName = "">>
+<<declare $characterFLName = "">>
 <<if $hasChosenName == false>>
 Villager: Oh, you're awake.
-
 Villager: You look a little confused.
-
 Villager: Do you remember your name?
 
 <<enter_player_name GameManager>>
 <<set $hasChosenName = true>>
-
 {$playerName}: My name is {$playerName}. //Player can be used as a fixed name in the beginning
-
 Villager: {$playerName}...
-
 Villager: Yes, that suits you.
-
 Villager: It's good to meet you, {$playerName}.
+Villager: And the woman who was with you...
+Villager: Do you remember her name?
+<<enter_character_fl_name GameManager>>
+{$playerName}: Her name is {$characterFLName}.
+Villager: {$characterFLName}...
+Villager: I see.
+Villager: It's good to meet you both.
 <<else>>
-    
 Villager: Ah, {$playerName}. Good to see you again.
 
 <<endif>>

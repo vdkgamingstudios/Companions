@@ -60,6 +60,29 @@ public class RelationshipManager : MonoBehaviour
         Debug.Log(relationship.displayName +" affection is now " +relationship.affection);
     }
 
+    // Change the visible name of an NPC.
+    // This does NOT change their npcID or affection.
+    public void SetDisplayName(string npcID, string newName)
+    {
+        NPCRelationship relationship = GetRelationship(npcID);
+
+        if (relationship == null)
+        {
+            Debug.LogWarning(
+                "NPC not found: " + npcID
+            );
+            return;
+        }
+
+        relationship.displayName = newName;
+
+        Debug.Log(
+            "NPC " + npcID +
+            " display name changed to " +
+            newName
+        );
+    }
+
     // Used later by the relationship menu.
     public List<NPCRelationship> GetAllRelationships()
     {

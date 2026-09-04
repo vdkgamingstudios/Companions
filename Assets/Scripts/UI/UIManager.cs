@@ -50,6 +50,9 @@ public class UIManager : MonoBehaviour
 
     private Coroutine popupCoroutine;
 
+    [Header("Player Stats UI")]
+    [SerializeField] private PlayerUIManager playerUIManager;
+
 
     private void Awake()
     {
@@ -139,6 +142,11 @@ public class UIManager : MonoBehaviour
 
             case MenuType.PlayerStats:
                 playerStatsMenu.SetActive(true);
+                //Refresh the player's current stats whenever the Player Stats menu is opened.
+                if (playerUIManager != null)
+                {
+                    playerUIManager.UpdatePlayerUI();
+                }
                 break;
 
             case MenuType.Relationships:

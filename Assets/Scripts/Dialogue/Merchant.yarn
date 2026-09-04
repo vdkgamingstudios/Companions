@@ -1,0 +1,42 @@
+﻿title: Merchant
+---
+Merchant: Interested in buying or selling something?
+-> Buy something
+    <<jump MerchantBuy>>
+-> Sell something
+    <<jump MerchantSell>>
+-> Leave
+    {$playerName}: Maybe another time.
+    Merchant: Come back anytime.
+===
+title: MerchantBuy
+---
+Merchant: What are you looking for?
+-> Buy potion - 25 gold
+    <<if get_money() >= 25>>
+        {$playerName}: I'll take the potion.
+        <<spend_money GameManager 25>>
+        Merchant: Here you go.
+        <<jump Merchant>>
+    <<else>>
+        Merchant: You don't have enough money for that.
+        <<jump Merchant>>
+    <<endif>>
+-> Go back
+    <<jump Merchant>>
+===
+
+title: MerchantSell
+---
+Merchant: What are you looking to sell?
+-> Sell Gem - 15 gold
+    {$playerName}: I've got this gem. Interested?
+    Merchant: I'll give you 15 gold for it.
+    <<add_money GameManager 15>>
+    {$playerName}: Deal.
+    Merchant: Pleasure doing business with you.
+    <<jump Merchant>>
+-> Never mind
+    {$playerName}: Actually, I'll hold onto my things.
+    <<jump Merchant>>
+===

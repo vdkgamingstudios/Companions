@@ -203,7 +203,7 @@ public class CharacterCreation : MonoBehaviour
                 //Change the visible relationship name for Character One.
                 if (RelationshipManager.Instance != null)
                 {
-                    RelationshipManager.Instance.SetDisplayName( "characterone",enteredName);
+                    RelationshipManager.Instance.SetDisplayName( "characterfour",enteredName);
                 }
 
                 // Refresh Relationships menu.

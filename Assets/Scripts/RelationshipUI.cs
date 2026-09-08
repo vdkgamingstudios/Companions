@@ -13,6 +13,14 @@ public class RelationshipUI : MonoBehaviour
     [SerializeField] private TMP_Text characterTwoNameText;
     [SerializeField] private TMP_Text characterTwoAffectionText;
 
+    [Header("Character Three")]
+    [SerializeField] private TMP_Text characterThreeNameText;
+    [SerializeField] private TMP_Text characterThreeAffectionText;
+
+    [Header("Character Four")]
+    [SerializeField] private TMP_Text characterFourNameText;
+    [SerializeField] private TMP_Text characterFourAffectionText;
+
     //Called automatically whenever the Relationships menu becomes active.
     private void OnEnable()
     {
@@ -27,28 +35,24 @@ public class RelationshipUI : MonoBehaviour
             return;
         }
 
-        NPCRelationship characterOne =
-            RelationshipManager.Instance.GetRelationship(
-                "characterone"
-            );
+        NPCRelationship characterOne = RelationshipManager.Instance.GetRelationship("characterone");
 
-        NPCRelationship characterTwo =
-            RelationshipManager.Instance.GetRelationship(
-                "charactertwo"
-            );
+        NPCRelationship characterTwo = RelationshipManager.Instance.GetRelationship("charactertwo");
+
+        NPCRelationship characterThree = RelationshipManager.Instance.GetRelationship("characterthree");
+
+        NPCRelationship characterFour = RelationshipManager.Instance.GetRelationship("characterfour");
 
         if (characterOne != null)
         {
             if (characterOneNameText != null)
             {
-                characterOneNameText.text =
-                    characterOne.displayName;
+                characterOneNameText.text = characterOne.displayName;
             }
 
             if (characterOneAffectionText != null)
             {
-                characterOneAffectionText.text =
-                    characterOne.affection.ToString();
+                characterOneAffectionText.text =characterOne.affection.ToString();
             }
         }
 
@@ -56,32 +60,39 @@ public class RelationshipUI : MonoBehaviour
         {
             if (characterTwoNameText != null)
             {
-                characterTwoNameText.text =
-                    characterTwo.displayName;
+                characterTwoNameText.text = characterTwo.displayName;
             }
 
             if (characterTwoAffectionText != null)
             {
-                characterTwoAffectionText.text =
-                    characterTwo.affection.ToString();
+                characterTwoAffectionText.text = characterTwo.affection.ToString();
             }
         }
-        ////Make sure the RelationshipManager exists before trying to get any relationship data.
-        //if (RelationshipManager.Instance == null)
-        //{
-        //    Debug.LogWarning("RelationshipManager not found.");
-        //    return;
-        //}
 
-        ////Get Character One's current affection level from the RelationshipManager.
-        //int characterOneAffection = RelationshipManager.Instance.GetAffection("characterone");
+        if (characterThree != null)
+        {
+            if (characterThreeNameText != null)
+            {
+                characterThreeNameText.text = characterThree.displayName;
+            }
 
-        ////Get Character Two's current affection level from the RelationshipManager.
-        //int characterTwoAffection = RelationshipManager.Instance.GetAffection("charactertwo");
+            if (characterThreeAffectionText != null)
+            {
+                characterThreeAffectionText.text = characterThree.affection.ToString();
+            }
+        }
 
-        ////Display the current affection values in the Relationships menu.
-        //characterOneAffectionText.text = characterOneAffection.ToString();
+        if (characterFour != null)
+        {
+            if (characterFourNameText != null)
+            {
+                characterFourNameText.text = characterFour.displayName;
+            }
 
-        //characterTwoAffectionText.text = characterTwoAffection.ToString();
+            if (characterFourAffectionText != null)
+            {
+                characterFourAffectionText.text = characterFour.affection.ToString();
+            }
+        }
     }
 }

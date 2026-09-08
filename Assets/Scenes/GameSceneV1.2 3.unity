@@ -2986,7 +2986,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Midna
+  m_text: Ashen Witch
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3464,7 +3464,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ashen Witch
+  m_text: '?'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aea1465faf4aff140b6b2fa75c123ee0, type: 2}
   m_sharedMaterial: {fileID: -8912802068020884959, guid: aea1465faf4aff140b6b2fa75c123ee0, type: 2}
@@ -5466,11 +5466,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   relationships:
   - npcID: characterone
-    displayName: Midna
+    displayName: Ashen Witch
     affection: 15
     maxAffection: 100
   - npcID: charactertwo
-    displayName: Azerith
+    displayName: Child of Void
+    affection: 15
+    maxAffection: 100
+  - npcID: characterthree
+    displayName: Ghost
+    affection: 15
+    maxAffection: 100
+  - npcID: characterfour
+    displayName: FL
     affection: 15
     maxAffection: 100
 --- !u!114 &659824935
@@ -6371,7 +6379,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ash
+  m_text: Merchant
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6902,7 +6910,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Orihime
+  m_text: Villager
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -21817,7 +21825,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '?'
+  m_text: Ashen Witch
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aea1465faf4aff140b6b2fa75c123ee0, type: 2}
   m_sharedMaterial: {fileID: -8912802068020884959, guid: aea1465faf4aff140b6b2fa75c123ee0, type: 2}
@@ -22208,6 +22216,10 @@ MonoBehaviour:
   characterOneAffectionText: {fileID: 1233947723}
   characterTwoNameText: {fileID: 1345331856}
   characterTwoAffectionText: {fileID: 222966269}
+  characterThreeNameText: {fileID: 945093402}
+  characterThreeAffectionText: {fileID: 206639481}
+  characterFourNameText: {fileID: 377158858}
+  characterFourAffectionText: {fileID: 702764230}
 --- !u!222 &7353841235783003592
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -15678,6 +15678,10 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7550351798751771189, guid: 57eb3cd7bce52334b911f51c164640b5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7983901364711755695, guid: 57eb3cd7bce52334b911f51c164640b5, type: 3}
       propertyPath: m_LocalScale.y
       value: 1.9957545
@@ -21641,7 +21645,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: What is your name?
+  m_text: 'Name:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aea1465faf4aff140b6b2fa75c123ee0, type: 2}
   m_sharedMaterial: {fileID: -8912802068020884959, guid: aea1465faf4aff140b6b2fa75c123ee0, type: 2}

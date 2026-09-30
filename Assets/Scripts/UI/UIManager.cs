@@ -9,6 +9,13 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    [Header("Dialogue")]
+    private bool dialogueActive = false;
+    public bool DialogueActive => dialogueActive;
+
+    [Header("Cursor")]
+    [SerializeField] private CursorManager cursorManager;
+
     [Header("UI Flags")]
     public bool menuWindowIsOpen = false; //Inventory screen, equipment menu etc
     public bool popUpWindowIsOpen = false; //Item pick up, dialogue pop up
@@ -107,6 +114,13 @@ public class UIManager : MonoBehaviour
 
     public void ToggleMenu(MenuType menu)
     {
+        //Do not allow menus to open while dialogue is active.
+        if (dialogueActive)
+        {
+            Debug.Log("Cannot open menus during dialogue.");
+            return;
+        }
+
         if (CurrentMenu == menu)
         {
             CloseMenus();
@@ -119,6 +133,12 @@ public class UIManager : MonoBehaviour
 
     public void OpenMenu(MenuType menu)
     {
+        //Prevent anything from opening a menu during dialogue.
+        if (dialogueActive)
+        {
+            return;
+        }
+
         //Hide all currently open menus.
         CloseMenuObjects();
         ClosePausePanels();
@@ -167,9 +187,11 @@ public class UIManager : MonoBehaviour
 
         AudioListener.pause = true;
 
-        //Unlock and display the cursor.
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        //Unlock and display the cursor while a menu is open.
+        if (cursorManager != null)
+        {
+            cursorManager.SetUIWithMouseCursor();
+        }
 
         //Automatically select the first pause button when the Pause menu is opened.
         if (menu == MenuType.Pause &&
@@ -300,8 +322,11 @@ public class UIManager : MonoBehaviour
 
         AudioListener.pause = false;
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Restore the correct cursor state. If dialogue is still running, the cursor stays visible. Otherwise, it returns to normal gameplay mode.
+        if (cursorManager != null)
+        {
+            cursorManager.RestoreCursorState();
+        }
 
         if (EventSystem.current != null)
         {
@@ -365,5 +390,23 @@ public class UIManager : MonoBehaviour
         popupPanel.SetActive(false);
 
         popupCoroutine = null;
+    }
+
+    //Called when Yarn dialogue begins.
+    public void DialogueStarted()
+    {
+        dialogueActive = true;
+
+        ////If a menu somehow happens to be open when dialogue starts, close it.
+        //if (IsMenuOpen)
+        //{
+        //    CloseMenus();
+        //}
+    }
+
+    //Called when Yarn dialogue finishes.
+    public void DialogueEnded()
+    {
+        dialogueActive = false;
     }
 }

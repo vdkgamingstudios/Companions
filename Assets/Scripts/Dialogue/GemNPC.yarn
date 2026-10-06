@@ -1,0 +1,26 @@
+﻿title: GemLiliana
+---
+Liliana: Hello, {$playerName}.
+<<if $gemQuestComplete>>
+    Liliana: Thank you again for finding that gem.
+<<elseif has_item("gem")>>
+    Liliana: Wait...
+    Liliana: Is that the gem I've been looking for?
+    -> Give the Gem
+        {$playerName}: You mean this?
+        Liliana: Yes! That's exactly the one.
+        <<remove_item GameManager "gem">>
+        <<set $gemQuestComplete = true>>
+        Liliana: Thank you. I've been searching everywhere for it.
+        Liliana: I want you to have something in return.
+        Liliana: I found this some time ago. Perhaps you'll find someone who would appreciate it.
+        <<give_special_gift GameManager>>
+        {$playerName}: Thank you.
+    -> Keep the Gem
+        {$playerName}: I think I'll hold onto it for now.
+        Liliana: Very well. Let me know if you change your mind.
+<<else>>
+    Liliana: I'm looking for a strange gem.
+    Liliana: If you happen to find one, would you bring it to me?
+<<endif>>
+===

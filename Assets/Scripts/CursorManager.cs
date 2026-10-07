@@ -21,6 +21,8 @@ public class CursorManager : MonoBehaviour
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        Debug.Log("GAMEPLAY CURSOR SET | Visible: " +Cursor.visible +" | Lock State: " +Cursor.lockState);
     }
 
     //Unlocks the cursor
@@ -28,6 +30,9 @@ public class CursorManager : MonoBehaviour
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
+        //Testing mouse issue
+        Debug.Log("UI CURSOR SET | Visible: " +Cursor.visible + " | Lock State: " +Cursor.lockState);
     }
 
     //Call this when Yarn dialogue begins.

@@ -1,0 +1,20 @@
+﻿title: CharacterFL
+---
+{$characterFLName}: Hello, {$playerName}.
+<<if has_item("special_gift")>>
+    {$characterFLName}: Is something wrong?
+    -> Give her the Special Gift
+        {$playerName}: Actually, I have something for you.
+        {$characterFLName}: For me?
+        {$playerName}: I thought you might like it.
+        <<remove_item GameManager "special_gift">>
+        <<change_affection GameManager "characterfour" 15>>
+        {$characterFLName}: It's beautiful...
+        {$characterFLName}: Thank you, {$playerName}. I really like it.
+    -> Keep the gift
+        {$playerName}: No, it's nothing.
+        {$characterFLName}: Alright...
+<<else>>
+    {$characterFLName}: It's good to see you.
+<<endif>>
+===

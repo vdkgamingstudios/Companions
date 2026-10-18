@@ -25,8 +25,8 @@ Lost Villager: Do you remember their name?
 Lost Villager: {$characterFLName}...
 Lost Villager: Ah yes you two had just arrived recently.
 Lost Villager: Hopefully you can find her soon and get out of here.
-Lost Villager: I would go with you to look for her, but I am not gonna lie my brain is fuzzy and buzzing.
-Lost Villager: I think I might just rest here for a moment to see if my body can align with where ever we are.
+Lost Villager: I would go with you to look for her, but I am not gonna lie my brain is fuzzy.
+Lost Villager: I think I might just rest here for a moment to see if my body can catch up.
 Lost Villager: Let me know if you find anything else hopefully you find a way out.
 <<elseif $foundTeleporter == true && $toldVillagerAboutTeleporter == false>>
 Lost Villager: Ah, {$playerName}. Good to see you again.

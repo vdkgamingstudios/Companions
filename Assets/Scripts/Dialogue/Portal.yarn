@@ -1,0 +1,25 @@
+﻿title: Portal
+---
+<<declare $foundTeleporterEnergy = false>>
+<<declare $portalInteracted = false>>
+<<if $foundTeleporterEnergy>>
+    System: The mysterious portal begins to glow brightly.
+    System: The Teleporter Energy resonates with the portal.
+    {$playerName}: Looks like this is what I needed to activate it.
+    System: The portal has been activated!
+    {$playerName}: Finally, a way out of here.
+    System: Teleporting Soon...
+<<elseif $portalInteracted == false>>
+    System: A mysterious portal stands before you.
+    System: Strange energy flows through it, almost as though it's connected to somewhere else.
+    {$playerName}: Could this be a way out of here?
+    System: The portal appears to be missing an energy source.
+    {$playerName}: Maybe I should look around for something that can power it.
+    <<set $portalInteracted = true>>
+<<else>>
+    System: The mysterious portal continues to glow faintly.
+    {$playerName}: I still need to find the Teleporter Energy to activate this.
+    System: Perhaps I should explore the surrounding area.
+
+<<endif>>
+===

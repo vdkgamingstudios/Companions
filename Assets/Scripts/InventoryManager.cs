@@ -4,20 +4,26 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    //Allows other scripts to easily access the inventory.
+    //Allows other scripts to access the inventory.
     public static InventoryManager Instance;
 
-    [Header("Inventory")]
+    [Header("Player Inventory")]
 
-    //All items currently owned by the player.
+    //Items currently owned by the player.
     [SerializeField]
     private List<ItemData> items = new List<ItemData>();
 
     [SerializeField]
     private int maxInventorySize = 16;
 
-    //Allows the Inventory UI to read the inventory,but prevents it from directly replacing the list.
+    //Allows the Inventory UI to read the items.
     public List<ItemData> Items => items;
+
+    [Header("Available Items")]
+
+    //All ItemData assets that can be added through merchants, quests or other systems.
+    [SerializeField]
+    private List<ItemData> allItems = new List<ItemData>();
 
 
     private void Awake()
@@ -42,10 +48,9 @@ public class InventoryManager : MonoBehaviour
         }
 
         //Don't allow more than 16 items.
-        if (items.Count >= maxInventorySize)
+        if (!HasSpace())
         {
             Debug.Log("Inventory is full!");
-
             return false;
         }
 
@@ -60,16 +65,51 @@ public class InventoryManager : MonoBehaviour
         return true;
     }
 
+    public bool HasSpace()
+    {
+        return items.Count < maxInventorySize;
+    }
+
+    public ItemData GetItemData(string itemID)
+    {
+        return allItems.Find(
+            item => item != null && item.itemID == itemID
+        );
+    }
+
+    public bool AddItemByID(string itemID)
+    {
+        ItemData item = GetItemData(itemID);
+
+        if (item == null)
+        {
+            Debug.LogWarning(
+                "Item not found in database: " + itemID
+            );
+
+            return false;
+        }
+
+        return AddItem(item);
+    }
+
     public bool HasItem(string itemID)
     {
         return items.Exists(
-            item => item.itemID == itemID
+            item => item != null && item.itemID == itemID
         );
+    }
+
+    public int GetItemCount(string itemID)
+    {
+        return items.FindAll(
+            item => item != null && item.itemID == itemID
+        ).Count;
     }
 
     public bool RemoveItem(string itemID)
     {
-        ItemData item =items.Find(inventoryItem =>inventoryItem.itemID == itemID);
+        ItemData item = items.Find(inventoryItem =>inventoryItem != null &&inventoryItem.itemID == itemID);
 
         //Player doesn't own this item.
         if (item == null)
@@ -92,7 +132,7 @@ public class InventoryManager : MonoBehaviour
 
     public ItemData GetItem(string itemID)
     {
-        return items.Find(item => item.itemID == itemID);
+        return items.Find(item => item != null && item.itemID == itemID);
     }
 
     private void RefreshInventoryUI()

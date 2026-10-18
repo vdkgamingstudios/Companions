@@ -10,7 +10,7 @@
     <<else>>
         Ashen Witch: Oh, hello {$playerName}.
     <<endif>>
-    Ashen Witch: How are you finding the village?
+    Ashen Witch: This plane of existence is odd, but beautiful in a way. How do you find it?
     -> I love it here.
         <<change_affection GameManager "characterone" 10>>
         {$playerName}: I love it here.

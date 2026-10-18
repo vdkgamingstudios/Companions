@@ -138,4 +138,45 @@ public class CameraManager : MonoBehaviour
             inputManager.cameraInputY = 0f;
         }
     }
+
+    //Instantly moves the camera to the player's current position.Used when teleporting or respawning.
+    public void SnapCameraToPlayer()
+    {
+        if (targetTransform == null)
+        {
+            Debug.LogWarning("Camera target is missing!");
+            return;
+        }
+
+        // Reset smoothing velocity.
+        cameraFollowVelocity = Vector3.zero;
+
+        // Immediately move the camera rig to the player.
+        transform.position = targetTransform.position;
+
+        // Maintain the camera's current rotation.
+        transform.rotation = Quaternion.Euler(0f, lookAngle, 0f);
+
+        if (cameraPivot != null)
+        {
+            cameraPivot.localRotation =
+                Quaternion.Euler(pivotAngle, 0f, 0f);
+        }
+
+        // Restore the camera's normal local position.
+        if (cameraTransform != null)
+        {
+            Vector3 cameraPosition = cameraTransform.localPosition;
+            cameraPosition.z = defaultPosition;
+            cameraTransform.localPosition = cameraPosition;
+        }
+
+        // Update the transforms immediately.
+        Physics.SyncTransforms();
+
+        Debug.Log(
+            "CAMERA SNAP | Player: " + targetTransform.position +
+            " | Camera Rig: " + transform.position
+        );
+    }
 }

@@ -3,26 +3,56 @@
 <<declare $hasChosenName = false>>
 <<declare $playerName = "">>
 <<declare $characterFLName = "">>
+<<declare $foundTeleporter = false>>
+<<declare $toldVillagerAboutTeleporter = false>>
 <<if $hasChosenName == false>>
-Villager: Oh, you're awake.
-Villager: You look a little confused.
-Villager: Do you remember your name?
+Lost Villager: Finally I am not alone and there is someone else here with me. 
+Lost Villager: I don't know what happened, but this place is so beautiful I am seeing double.
+Lost Villager: It is all a blur as I was gone before I could gather my thoughts.
+Lost Villager: However, you seem vaguely familiar like we have meet before.
+Lost Villager: What is your name? As that might help to recall something.
 
 <<enter_player_name GameManager>>
 <<set $hasChosenName = true>>
 {$playerName}: My name is {$playerName}. //Player can be used as a fixed name in the beginning
-Villager: {$playerName}...
-Villager: Yes, that suits you.
-Villager: It's good to meet you, {$playerName}.
-Villager: And the woman who was with you...
-Villager: Do you remember her name?
+Lost Villager: Ah {$playerName} that does ring a bell.
+Lost Villager: That and someone new to the area wanting to tackle the tower.
+Lost Villager: It's good to see you, {$playerName}. I think you also had someone in tow when you arrived.
+Lost Villager: A woman I believe who was with you...
+Lost Villager: Do you remember their name?
 <<enter_character_fl_name GameManager>>
 {$playerName}: Her name is {$characterFLName}.
-Villager: {$characterFLName}...
-Villager: I see.
-Villager: It's good to meet you both.
+Lost Villager: {$characterFLName}...
+Lost Villager: Ah yes you two had just arrived recently.
+Lost Villager: Hopefully you can find her soon and get out of here.
+Lost Villager: I would go with you to look for her, but I am not gonna lie my brain is fuzzy and buzzing.
+Lost Villager: I think I might just rest here for a moment to see if my body can align with where ever we are.
+Lost Villager: Let me know if you find anything else hopefully you find a way out.
+<<elseif $foundTeleporter == true && $toldVillagerAboutTeleporter == false>>
+Lost Villager: Ah, {$playerName}. Good to see you again.
+Lost Villager: Have you managed to find anything while exploring?
+    -> Tell the villager about the teleporter
+        {$playerName}: Actually, I think I found a way out of here.
+        Lost Villager: Really? You found something?
+        {$playerName}: There's a strange teleporter nearby. I think it might lead us out of this place.
+        Lost Villager: A teleporter? That's certainly unexpected.
+        Lost Villager: But if it means we can finally leave this place, I'm willing to give it a try.
+        Lost Villager: Thank you, {$playerName}. I was beginning to think we'd be stuck here forever.
+        Lost Villager: I'll gather myself and see if I can make my way there.
+        <<set $toldVillagerAboutTeleporter = true>>
+    -> Don't mention it yet
+        {$playerName}: Nothing worth mentioning just yet.
+        Lost Villager: I see. Well, it's good to see you again.
+        Lost Villager: Let me know if you discover anything.
+<<elseif $toldVillagerAboutTeleporter == true>>
+    Lost Villager: Ah, {$playerName}. Good to see you again.
+    Lost Villager: I've been thinking about that teleporter you mentioned.
+    Lost Villager: Hopefully it really is our way out of here.
+    Lost Villager: Thank you again for telling me about it.
 <<else>>
-Villager: Ah, {$playerName}. Good to see you again.
-
+    Lost Villager: Ah, {$playerName}. Good to see you again.
+    Lost Villager: Have you found anything interesting?
+    {$playerName}: Not yet. I'm still looking around.
+    Lost Villager: I see. Well, hopefully we'll find a way out soon.
 <<endif>>
 ===

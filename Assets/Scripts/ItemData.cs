@@ -22,4 +22,20 @@ public class ItemData : ScriptableObject
 
     [TextArea]
     public string description;
+
+    [Header("Merchant Settings")]
+
+    // Whether merchants are allowed to sell this item.
+    public bool canBuy = true;
+
+    // Whether the player can sell this item.
+    public bool canSell = true;
+
+    // Price when buying from a merchant.
+    [Min(0)]
+    public int buyPrice = 25;
+
+    // Price when selling to a merchant.
+    [Min(0)]
+    public int sellPrice = 10;
 }

@@ -17,7 +17,6 @@ Merchant: What are you looking for?
         {$playerName}: I'll take the potion.
         <<buy_item GameManager "health_potion">>
         Merchant: Here you go. One Health Potion!
-        Merchant: Anything else I can help you with?
         <<jump Merchant>>
     <<else>>
         Merchant: Sorry, you either don't have enough gold or your inventory is full.
@@ -48,7 +47,6 @@ Merchant: What are you looking to sell?
         {$playerName}: I'd like to sell this potion.
         Merchant: I'll give you 10 gold for it.
         <<sell_item GameManager "health_potion">>
-        Merchant: Thank you. Anything else?
         <<jump Merchant>>
     <<else>>
         Merchant: You don't have any Health Potions to sell.

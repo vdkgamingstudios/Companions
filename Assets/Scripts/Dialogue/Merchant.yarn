@@ -1,57 +1,166 @@
-﻿title: Merchant
+﻿
+title: Merchant
 ---
-Merchant: Interested in buying or selling something?
--> Buy something
+<<declare $metMerchant = false>>
+<<if $metMerchant == false>>
+    Merchant: Welcome, traveller!
+    Merchant: First time visiting my little shop?
+    {$playerName}: You have a shop here?
+    Merchant: Of course!
+    Merchant: Even in a place as strange as this, people need supplies.
+    {$playerName}: You don't seem particularly worried about being stuck here.
+    Merchant: Oh, believe me, I am.
+    Merchant: But worrying won't put food on the table.
+    Merchant: Besides, if we're going to be stuck here, we might as well make the best of it!
+    {$playerName}: I suppose that's one way to look at things.
+    Merchant: Exactly!
+    Merchant: Now then, looking to buy something, or perhaps sell a few things?
+    <<set $metMerchant = true>>
+<<else>>
+    Merchant: Welcome back, traveller!
+    Merchant: Looking to buy something, or perhaps sell a few things?
+<<endif>>
+-> Buy Items
+    Merchant: Of course! Take a look at what I've got.
     <<jump MerchantBuy>>
--> Sell something
+-> Sell Items
+    Merchant: Let's see what you've got to sell.
     <<jump MerchantSell>>
+-> Ask about this place
+    {$playerName}: Do you know anything about where we are?
+    Merchant: Unfortunately, not much.
+    Merchant: One moment I was sorting through my supplies.
+    Merchant: The next, I woke up in this strange place.
+    Merchant: Floating islands, unusual creatures, and people appearing out of nowhere...
+    Merchant: Certainly not what I expected when I woke up this morning!
+    {$playerName}: And you're still running a shop?
+    Merchant: Of course!
+    Merchant: Adventurers still need supplies.
+    Merchant: And I happen to have plenty!
+    Merchant: Now, is there anything I can help you with?
+    <<jump Merchant>>
 -> Leave
-    {$playerName}: Maybe another time.
-    Merchant: Come back anytime.
+    {$playerName}: Nothing for now.
+    Merchant: Safe travels!
 ===
 title: MerchantBuy
 ---
 Merchant: What are you looking for?
--> Buy potion - 25 gold
+-> Buy Health Potion - 25 gold
     <<if can_buy_item("health_potion")>>
-        {$playerName}: I'll take the potion.
+        {$playerName}: I'll take a Health Potion.
+        Merchant: A wise choice!
+        Merchant: You never know when you might need one.
         <<buy_item GameManager "health_potion">>
         Merchant: Here you go. One Health Potion!
-        <<jump Merchant>>
+        Merchant: Anything else catch your eye?
     <<else>>
         Merchant: Sorry, you either don't have enough gold or your inventory is full.
-        <<jump Merchant>>
+        Merchant: A Health Potion costs 25 gold.
     <<endif>>
+    <<jump MerchantBuy>>
+-> Buy Gem - 50 gold
+    <<if can_buy_item("gem")>>
+        {$playerName}: How much for that gem?
+        Merchant: 50 gold.
+        Merchant: Quite a pretty little thing, isn't it?
+        {$playerName}: I'll take it.
+        <<buy_item GameManager "gem">>
+        Merchant: Excellent choice!
+        Merchant: Just be careful who you show it to.
+        Merchant: Some people have a habit of making valuables disappear.
+    <<else>>
+        Merchant: Sorry, you either don't have enough gold or your inventory is full.
+        Merchant: That gem costs 50 gold.
+    <<endif>>
+    <<jump MerchantBuy>>
+-> Buy Apple - 10 gold
+    <<if can_buy_item("apple")>>
+        {$playerName}: I'd like to buy an apple.
+        Merchant: Ah, something simple for a change!
+        Merchant: That'll be 10 gold.
+        <<buy_item GameManager "apple">>
+        Merchant: Here you go! One fresh apple.
+        Merchant: Well, as fresh as anything can be around here.
+    <<else>>
+        Merchant: Sorry, you either don't have enough gold or your inventory is full.
+        Merchant: An apple costs 10 gold.
+    <<endif>>
+    <<jump MerchantBuy>>
+-> Buy Mana Potion - 30 gold
+    <<if can_buy_item("mana_potion")>>
+        {$playerName}: I'd like to buy a Mana Potion.
+        Merchant: A Mana Potion?
+        Merchant: Planning on practising some magic?
+        {$playerName}: It's for someone who needs it.
+        Merchant: Ah, I see!
+        Merchant: Well, you're in luck.
+        Merchant: That'll be 30 gold.
+        <<buy_item GameManager "mana_potion">>
+        Merchant: Here you go! One Mana Potion.
+        Merchant: Hopefully it'll help whoever you're buying it for.
+    <<else>>
+        Merchant: Sorry, you either don't have enough gold or your inventory is full.
+        Merchant: A Mana Potion costs 30 gold.
+    <<endif>>
+    <<jump MerchantBuy>>
 -> Go back
     <<jump Merchant>>
 ===
-
 title: MerchantSell
 ---
 Merchant: What are you looking to sell?
-
--> Sell Gem - 15 gold
+-> Sell Gem - 35 gold
     <<if can_sell_item("gem")>>
         {$playerName}: I've got this gem. Interested?
-        Merchant: I'll give you 15 gold for it.
+        Merchant: Oh, that's a lovely little gem!
+        Merchant: I'll give you 35 gold for it.
+        {$playerName}: Sounds fair.
         <<sell_item GameManager "gem">>
-        {$playerName}: Deal.
-        Merchant: Pleasure doing business with you.
-        <<jump Merchant>>
+        Merchant: Pleasure doing business with you!
     <<else>>
         Merchant: Sorry, you don't have a Gem that I can buy.
-        <<jump Merchant>>
     <<endif>>
+    <<jump MerchantSell>>
 -> Sell Health Potion - 10 gold
     <<if can_sell_item("health_potion")>>
-        {$playerName}: I'd like to sell this potion.
+        {$playerName}: I'd like to sell this Health Potion.
+        Merchant: Certainly!
         Merchant: I'll give you 10 gold for it.
         <<sell_item GameManager "health_potion">>
-        <<jump Merchant>>
+        Merchant: Thank you!
+        Merchant: Anything else you'd like to sell?
     <<else>>
         Merchant: You don't have any Health Potions to sell.
-        <<jump Merchant>>
     <<endif>>
+    <<jump MerchantSell>>
+-> Sell Apple - 5 gold
+    <<if can_sell_item("apple")>>
+        {$playerName}: I've got an apple. Would you be interested?
+        Merchant: An apple? Certainly!
+        Merchant: I'll give you 5 gold for it.
+        {$playerName}: Sounds fair.
+        <<sell_item GameManager "apple">>
+        Merchant: Pleasure doing business with you!
+        Merchant: Anything else you'd like to sell?
+    <<else>>
+        Merchant: Sorry, you don't have any apples to sell.
+    <<endif>>
+    <<jump MerchantSell>>
+-> Sell Mana Potion - 12 gold
+    <<if can_sell_item("mana_potion")>>
+        {$playerName}: I'd like to sell this Mana Potion.
+        Merchant: A Mana Potion?
+        Merchant: Those are always useful for adventurers.
+        Merchant: I'll give you 12 gold for it.
+        {$playerName}: Deal.
+        <<sell_item GameManager "mana_potion">>
+        Merchant: Pleasure doing business with you!
+        Merchant: Anything else?
+    <<else>>
+        Merchant: You don't have any Mana Potions to sell.
+    <<endif>>
+    <<jump MerchantSell>>
 -> Never mind
     {$playerName}: Actually, I'll hold onto my things.
     <<jump Merchant>>

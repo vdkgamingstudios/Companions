@@ -16,3 +16,7 @@ MonoBehaviour:
   displayName: Apple
   icon: {fileID: 21300000, guid: e3a3750de2d70c442b4314ac8b255199, type: 3}
   description: A fresh apple to reduce hunger.
+  canBuy: 1
+  canSell: 1
+  buyPrice: 10
+  sellPrice: 10

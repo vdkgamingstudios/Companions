@@ -1,0 +1,387 @@
+﻿
+title: FemaleLead
+---
+<<declare $metFemaleLead = false>>
+<<declare $flReassured = false>>
+<<declare $flManaQuestStarted = false>>
+<<declare $flManaQuestComplete = false>>
+<<declare $flSurvivorsDiscussed = false>>
+<<declare $flPositiveInteractionUnlocked = false>>
+<<declare $flPositiveInteractionSeen = false>>
+<<declare $flStayedWithHer = false>>
+<<declare $flSharedInvestigationInfo = false>>
+<<declare $spokeToFemaleLeadAboutTower = false>>
+
+<<if $metFemaleLead == false>>
+    {$characterFLName}: {$playerName}?!
+    {$characterFLName}: Oh, thank goodness!
+    {$characterFLName}: You're here!
+    {$playerName}: There you are!
+    {$playerName}: I've been looking for you.
+    {$characterFLName}: I'm sorry!
+    {$characterFLName}: I really didn't mean to disappear.
+    {$characterFLName}: I thought that if I explored a little, I might find a way out of this place.
+    {$characterFLName}: You know... something useful.
+    {$playerName}: You went looking for an exit?
+    {$characterFLName}: Mhm!
+    {$characterFLName}: I thought maybe I could find something before you did.
+    {$characterFLName}: Just once, I wanted to be the one helping you.
+    {$characterFLName}: And then...
+    {$playerName}: You got lost?
+    {$characterFLName}: ...
+    {$characterFLName}: Very lost.
+    {$characterFLName}: I forgot how easily I lose my way.
+    {$characterFLName}: Every path started looking the same.
+    {$characterFLName}: I tried to come back, but I kept going in circles.
+    {$characterFLName}: Eventually, I was too scared to wander any further.
+    {$characterFLName}: I thought if I moved again, I might never find you.
+    {$playerName}: ...
+    {$characterFLName}: But then you appeared!
+    {$characterFLName}: I can't tell you how happy I am to see you.
+    -> I'm just glad you're safe
+        {$playerName}: I'm just glad you're safe.
+        {$playerName}: I was worried about you.
+        {$characterFLName}: You were?
+        {$playerName}: Of course I was.
+        {$characterFLName}: ...
+        {$characterFLName}: Thank you.
+        {$characterFLName}: I was worried about you too.
+        <<set $flReassured = true>>
+        <<change_affection GameManager "characterfl" 5>>
+    -> You really need to stop getting lost
+        {$playerName}: You really need to stop wandering off on your own.
+        {$characterFLName}: I know...
+        {$characterFLName}: I'm sorry.
+        {$characterFLName}: I just wanted to help.
+    -> At least you found something interesting
+        {$playerName}: Well, at least you found something interesting.
+        {$characterFLName}: Oh! You mean the portal?
+        {$characterFLName}: Yes!
+        {$characterFLName}: That's actually what I wanted to tell you!
+    {$characterFLName}: Look over there!
+    {$characterFLName}: That strange portal...
+    {$characterFLName}: I found it while wandering around.
+    {$characterFLName}: I haven't touched it, though.
+    {$playerName}: Why not?
+    {$characterFLName}: Well...
+    {$characterFLName}: After getting lost once, I didn't really want to risk being sent away again.
+    {$characterFLName}: But maybe it could lead us somewhere!
+    {$characterFLName}: Somewhere safer, hopefully.
+    {$playerName}: It's worth investigating.
+    {$characterFLName}: I think so too!
+    {$characterFLName}: Although...
+    {$playerName}: Something wrong?
+    {$characterFLName}: I've been feeling a little strange since we arrived here.
+    {$characterFLName}: My magic doesn't feel quite right.
+    {$characterFLName}: Even simple spells seem harder than they should.
+    {$playerName}: Is it because of what happened before we woke up here?
+    {$characterFLName}: I don't know.
+    {$characterFLName}: But it feels like something is holding me back.
+    {$characterFLName}: I thought maybe if I could restore my mana, I could start raising my levels again.
+    {$characterFLName}: Maybe then I'd be strong enough to help properly.
+    {$playerName}: You need a Mana Potion?
+    {$characterFLName}: That would be wonderful!
+    {$characterFLName}: If you happen to find one, could you bring it to me?
+    -> Of course. I'll get you one
+        {$playerName}: Of course. I'll find you a Mana Potion.
+        {$characterFLName}: Really?
+        {$characterFLName}: Thank you!
+        {$characterFLName}: I promise I'll make good use of it.
+        <<set $flManaQuestStarted = true>>
+        <<start_quest QuestManager "fl_mana_potion">>
+    -> I'll see what I can do
+        {$playerName}: I'll keep an eye out for one.
+        {$characterFLName}: That's more than enough.
+        {$characterFLName}: Thank you for helping me.
+        <<set $flManaQuestStarted = true>>
+        <<start_quest QuestManager "fl_mana_potion">>
+    -> Maybe later
+        {$playerName}: I've got a few other things to do first.
+        {$characterFLName}: Oh, that's alright!
+        {$characterFLName}: I don't want to be a burden.
+        {$characterFLName}: Just... come back when you can, okay?
+    <<set $metFemaleLead = true>>
+<<else>>
+    <<jump FemaleLeadReturn>>
+<<endif>>
+===
+title: FemaleLeadReturn
+---
+{$characterFLName}: {$playerName}!
+{$characterFLName}: You're back!
+-> Offer to find a Mana Potion <<if $flManaQuestStarted == false && $flManaQuestComplete == false>>
+    {$playerName}: I'll find you that Mana Potion.
+    {$characterFLName}: Really?
+    {$characterFLName}: Thank you so much!
+    <<set $flManaQuestStarted = true>>
+    <<start_quest QuestManager "fl_mana_potion">>
+    <<jump FemaleLeadReturn>>
+-> Give her the Mana Potion <<if $flManaQuestStarted == true && $flManaQuestComplete == false && has_item("mana_potion")>>
+    {$playerName}: Here. I found this for you.
+    {$characterFLName}: Really?
+    {$characterFLName}: For me?
+    {$playerName}: Of course.
+    <<remove_item GameManager "mana_potion">>
+    <<set $flManaQuestComplete = true>>
+    <<complete_quest QuestManager "fl_mana_potion">>
+    <<change_affection GameManager "characterfl" 10>>
+    {$characterFLName}: Thank you so much!
+    {$characterFLName}: I can already feel my mana returning.
+    {$playerName}: Feeling better?
+    {$characterFLName}: Much better!
+    {$characterFLName}: Although...
+    {$characterFLName}: There's still something strange about my magic.
+    {$playerName}: We'll figure it out.
+    {$characterFLName}: Together?
+    {$playerName}: Together.
+    {$characterFLName}: Hehe...
+    {$characterFLName}: I'd like that.
+    <<if $flSurvivorsDiscussed == true>>
+        <<set $flPositiveInteractionUnlocked = true>>
+    <<endif>>
+    <<jump FemaleLeadReturn>>
+-> Ask about the Mana Potion <<if $flManaQuestStarted == true && $flManaQuestComplete == false>>
+    {$playerName}: I haven't forgotten about your Mana Potion.
+    {$characterFLName}: Thank you!
+    {$characterFLName}: I'm sure we'll find one somewhere.
+    <<jump FemaleLeadReturn>>
+-> Talk about the other survivors
+    <<jump FemaleLeadSurvivors>>
+-> Ask about the portal
+    {$playerName}: Have you discovered anything else about the portal?
+    {$characterFLName}: Not much, unfortunately.
+    {$characterFLName}: It seems stable, but I can't tell where it leads.
+    {$characterFLName}: I'd rather not test it alone.
+    {$playerName}: Probably a good idea.
+    {$characterFLName}: See? I'm learning!
+    <<jump FemaleLeadReturn>>
+-> Stay with her for a while
+    <<jump FemaleLeadStay>>
+-> Ask about the tower incident <<if $towerInvestigationStarted == true && $spokeToFemaleLeadAboutTower == false>>
+    {$playerName}: Do you remember anything about what happened before we arrived here?
+    {$characterFLName}: A little...
+    {$characterFLName}: I remember a strange light.
+    {$characterFLName}: Everything started shaking, and I could barely stand.
+    {$characterFLName}: I tried to reach you, but...
+    {$characterFLName}: Then everything went dark.
+    {$playerName}: And you woke up here?
+    {$characterFLName}: Yes.
+    {$characterFLName}: I don't remember anything between those moments.
+    {$characterFLName}: I'm sorry I can't tell you more.
+    {$playerName}: It's alright. That still helps.
+    <<set $spokeToFemaleLeadAboutTower = true>>
+    <<set $towerPeopleSpokenTo += 1>>
+    <<jump FemaleLeadReturn>>
+-> Spend some time together <<if $flPositiveInteractionUnlocked == true>>
+    <<jump FemaleLeadPositiveInteraction>>
+-> Leave
+    {$playerName}: I'll be back soon.
+    {$characterFLName}: Okay!
+    {$characterFLName}: Just be careful out there.
+===
+ 
+title: FemaleLeadSurvivors
+---
+<<if $flSurvivorsDiscussed == true>>
+    {$characterFLName}: It's nice knowing we're not the only ones here.
+    {$characterFLName}: Everyone seems so different!
+    <<jump FemaleLeadReturn>>
+<<else>>
+    {$characterFLName}: Have you met anyone else around here?
+    {$playerName}: A few people, actually.
+    {$characterFLName}: Really?
+    {$characterFLName}: What are they like?
+    <<if $metLiliana == true>>
+        {$playerName}: I met Liliana.
+        {$playerName}: She's been trying to understand what happened.
+        {$characterFLName}: She sounds lovely!
+        {$characterFLName}: I hope she's doing alright.
+    <<endif>>
+    <<if $metThalia == true>>
+        {$playerName}: There's also Thalia.
+        {$playerName}: She's a thief, and she's quite confident.
+        {$characterFLName}: A thief?
+        {$characterFLName}: Oh my!
+        {$characterFLName}: Well, I suppose that doesn't mean she's a bad person.
+        {$characterFLName}: Maybe we could become friends!
+    <<endif>>
+    <<if $metTeysa == true>>
+        {$playerName}: I met Teysa, an alchemist.
+        {$playerName}: She was admiring the floating islands.
+        {$characterFLName}: An alchemist!
+        {$characterFLName}: That sounds exciting!
+        {$characterFLName}: I'd love to hear about her experiments.
+    <<endif>>
+    <<if $metElenda == true>>
+        {$playerName}: There's also Elenda, the Ashen Witch.
+        {$playerName}: She's researching the magic around here.
+        {$characterFLName}: The Ashen Witch?
+        {$characterFLName}: That sounds a little intimidating...
+        {$characterFLName}: But maybe she knows something that could help us.
+    <<endif>>
+    <<if $metVillager == true>>
+        {$playerName}: I also met a villager who seems to be lost.
+        {$characterFLName}: Oh no!
+        {$characterFLName}: I know exactly how that feels.
+        {$characterFLName}: I hope they're okay.
+    <<endif>>
+    <<if $metMerchant == true>>
+        {$playerName}: And there's a merchant selling supplies.
+        {$characterFLName}: Really?
+        {$characterFLName}: That's good news!
+        {$characterFLName}: At least we'll have somewhere to get what we need.
+    <<endif>>
+    {$characterFLName}: Wow...
+    {$characterFLName}: Everyone sounds so different.
+    {$characterFLName}: It's strange, isn't it?
+    {$characterFLName}: All these people, with completely different lives...
+    {$characterFLName}: Yet somehow we've all ended up in the same place.
+    {$playerName}: Yeah. It's a strange group.
+    {$characterFLName}: But maybe that's a good thing.
+    {$characterFLName}: Everyone has something unique about them.
+    {$characterFLName}: Maybe if we work together, we'll find a way home.
+    {$characterFLName}: And maybe...
+    {$characterFLName}: We won't have to face whatever is happening here alone.
+    {$playerName}: I think you're right.
+    {$characterFLName}: Hehe!
+    {$characterFLName}: I feel a little better already.
+    <<set $flSurvivorsDiscussed = true>>
+    <<change_affection GameManager "characterfl" 10>>
+    <<if $flManaQuestComplete == true>>
+        <<set $flPositiveInteractionUnlocked = true>>
+    <<endif>>
+    <<jump FemaleLeadReturn>>
+<<endif>>
+===
+title: FemaleLeadStay
+---
+{$characterFLName}: You want to stay here for a little while?
+{$playerName}: Yeah. I thought you might like some company.
+{$characterFLName}: ...
+{$characterFLName}: I'd really like that.
+{$characterFLName}: You know...
+{$characterFLName}: When I was waiting here, I kept telling myself not to be afraid.
+{$characterFLName}: But every time I looked at the portal...
+{$characterFLName}: I wondered what would happen if you never found me.
+{$playerName}: You don't have to worry about that now.
+{$characterFLName}: I know.
+{$characterFLName}: It's just...
+{$characterFLName}: Everything feels a little uncertain.
+{$characterFLName}: But when you're here, it doesn't seem quite so frightening.
+<<if $flStayedWithHer == false>>
+    <<change_affection GameManager "characterfl" 5>>
+    <<set $flStayedWithHer = true>>
+<<endif>>
+{$characterFLName}: Thank you for staying with me.
+<<jump FemaleLeadReturn>>
+===
+title: FemaleLeadRelationship
+---
+{$characterFLName}: {$playerName}!
+{$characterFLName}: I'm so happy to see you!
+<<if $flPositiveInteractionSeen == true>>
+    {$characterFLName}: I've been thinking about our conversation.
+    {$characterFLName}: It makes me feel better knowing we're facing this together.
+<<else>>
+    {$characterFLName}: I've been feeling much better lately.
+    {$characterFLName}: I think talking about everyone helped more than I expected.
+<<endif>>
+-> Ask how she's feeling
+    {$playerName}: How are you feeling now?
+    {$characterFLName}: Better!
+    {$characterFLName}: My mana is recovering, and I think I'm getting used to this place.
+    {$characterFLName}: Although I still feel a little strange sometimes.
+    {$playerName}: Strange how?
+    {$characterFLName}: It's hard to explain.
+    {$characterFLName}: Like something inside me is changing.
+    {$characterFLName}: But I'm trying not to worry about it too much.
+    <<jump FemaleLeadRelationship>>
+-> Talk about the other survivors
+    <<jump FemaleLeadSurvivors>>
+-> Spend some time together
+    <<jump FemaleLeadPositiveInteraction>>
+-> Ask about the portal
+    {$playerName}: Do you think the portal is safe?
+    {$characterFLName}: I don't know for sure.
+    {$characterFLName}: But I think it might be our best chance to leave.
+    {$characterFLName}: Whatever happens, I hope we can face it together.
+    <<jump FemaleLeadRelationship>>
+<<if $towerInvestigationStarted == true && $spokeToFemaleLeadAboutTower == false>>
+-> Ask about the tower incident
+    {$playerName}: Do you remember anything about what happened before we arrived here?
+    {$characterFLName}: A little...
+    {$characterFLName}: I remember a strange light.
+    {$characterFLName}: Everything started shaking, and I could barely stand.
+    {$characterFLName}: I tried to reach you, but...
+    {$characterFLName}: Then everything went dark.
+    {$playerName}: And you woke up here?
+    {$characterFLName}: Yes.
+    {$characterFLName}: I don't remember anything between those moments.
+    {$characterFLName}: I'm sorry I can't tell you more.
+    {$playerName}: It's alright. That still helps.
+    <<set $spokeToFemaleLeadAboutTower = true>>
+    <<set $towerPeopleSpokenTo += 1>>
+<<endif>>
+-> Leave
+    {$playerName}: I'll see you soon.
+    {$characterFLName}: I'll be waiting!
+===
+title: FemaleLeadPositiveInteraction
+---
+{$characterFLName}: I'm glad you came back.
+{$characterFLName}: There's something I've been wanting to tell you.
+{$playerName}: What is it?
+{$characterFLName}: When I first woke up here, I was terrified.
+{$characterFLName}: I tried to act brave.
+{$characterFLName}: I thought that if I found a way out, I could make everything better.
+{$characterFLName}: But I got lost.
+{$characterFLName}: And when I couldn't find you, I started thinking...
+{$characterFLName}: What if I'm not strong enough to help anyone?
+{$playerName}: ...
+{$characterFLName}: I know I always try to be positive.
+{$characterFLName}: But sometimes it's difficult.
+{$characterFLName}: Especially when my magic isn't working properly.
+{$characterFLName}: And lately...
+{$characterFLName}: I keep feeling like something is wrong with me.
+{$playerName}: What do you mean?
+{$characterFLName}: I don't know.
+{$characterFLName}: It's almost like something is slowly changing.
+{$characterFLName}: I don't want to become someone you don't recognise.
+{$playerName}: ...
+{$characterFLName}: Do you think I'll still be able to help everyone?
+-> You don't have to face this alone
+    {$playerName}: You don't have to do everything by yourself.
+    {$playerName}: Whatever happens, we'll face it together.
+    {$characterFLName}: ...
+    {$characterFLName}: You really mean that?
+    {$playerName}: Of course.
+    {$characterFLName}: Thank you.
+    {$characterFLName}: That means everything to me.
+    <<if $flPositiveInteractionSeen == false>>
+        <<change_affection GameManager "characterfl" 5>>
+    <<endif>>
+-> You're already helping more than you know
+    {$playerName}: You don't realise how much you already help people.
+    {$playerName}: Just being here makes things a little easier.
+    {$characterFLName}: Really?
+    {$playerName}: Really.
+    {$characterFLName}: ...
+    {$characterFLName}: You're going to make me cry.
+    <<if $flPositiveInteractionSeen == false>>
+        <<change_affection GameManager "characterfl" 5>>
+    <<endif>>
+-> We need you to become stronger
+    {$playerName}: We'll need everyone to become stronger if we're going to survive.
+    {$characterFLName}: You're right.
+    {$characterFLName}: I'll keep working hard.
+    {$characterFLName}: I promise I won't give up.
+<<set $flPositiveInteractionSeen = true>>
+{$characterFLName}: You know...
+{$characterFLName}: Even though this place is frightening, I'm glad we found each other again.
+{$characterFLName}: And I'm glad we've met so many different people.
+{$characterFLName}: Maybe this journey won't be so terrible after all.
+{$playerName}: Maybe not.
+{$characterFLName}: Hehe!
+{$characterFLName}: Come on.
+{$characterFLName}: Let's keep going, together.
+===

@@ -21,6 +21,12 @@ public class PlayerLocomotion : MonoBehaviour
     [Header("Falling")]
     public float inAirTimer;
 
+    [Header("Falling Detection")]
+    [SerializeField] private float fallAnimationDelay = 0.2f;
+    [SerializeField] private float minimumFallVelocity = -1.5f;
+
+    private float timeSinceGrounded = 0f;
+
     [Header("Movement Flags")]
     public bool isSprinting;
     public bool isGrounded;
@@ -160,58 +166,53 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void HandleFallingAndLanding()
     {
-        //Ground check to prevent null reference exception
         if (groundCheck == null)
         {
             return;
         }
 
-        //Create an invisible sphere at the GroundCheck object's position. If this sphere overlaps an object on the Ground Layer, Unity considers ground to be underneath the player.
-        bool groundDetected = Physics.CheckSphere(groundCheck.position,groundCheckRadius,groundLayer,QueryTriggerInteraction.Ignore);
+        // Check whether the player is touching the ground.
+        bool groundDetected = Physics.CheckSphere(
+            groundCheck.position,
+            groundCheckRadius,
+            groundLayer,
+            QueryTriggerInteraction.Ignore
+        );
 
-        //JUMP CHECK
+        // ==========================================
+        // JUMPING
+        // ==========================================
+
         if (isJumping)
         {
-            //While jumping upwards, the player should not be considered grounded.
             isGrounded = false;
 
-            //Reached the peak and started falling.
+            // Once the player reaches the top of the jump,
+            // transition into the falling animation.
             if (playerRigidbody.velocity.y <= 0f)
             {
                 isJumping = false;
                 isFalling = true;
 
-                animatorManager.PlayAnimation("Falling");
-            }
-
-            return;
-        }
-
-        //FALLING / WALKED OFF EDGE
-        if (!groundDetected)
-        {
-            isGrounded = false;
-
-            if (!isFalling)
-            {
-                //Enter falling state and track how long in air
-                isFalling = true;
+                timeSinceGrounded = 0f;
                 inAirTimer = 0f;
 
                 animatorManager.PlayAnimation("Falling");
             }
 
-            inAirTimer += Time.deltaTime;
-
             return;
         }
 
-        //GROUNDED / LANDED
+        // ==========================================
+        // GROUNDED
+        // ==========================================
+
         if (groundDetected && playerRigidbody.velocity.y <= 0.1f)
         {
+            // Only play the landing animation if the
+            // character was actually falling.
             if (isFalling)
             {
-                //Stop any leftover vertical motion so the player doesn't bounce back up after touching the ground.
                 Vector3 velocity = playerRigidbody.velocity;
                 velocity.y = 0f;
                 playerRigidbody.velocity = velocity;
@@ -223,8 +224,112 @@ public class PlayerLocomotion : MonoBehaviour
             isJumping = false;
             isFalling = false;
 
+            timeSinceGrounded = 0f;
             inAirTimer = 0f;
+
+            return;
         }
+
+        // ==========================================
+        // TEMPORARILY AIRBORNE
+        // ==========================================
+
+        // Track how long the player has been off the ground.
+        timeSinceGrounded += Time.fixedDeltaTime;
+
+        // If the player has only briefly lost contact
+        // with the ground, don't start falling yet.
+        if (timeSinceGrounded < fallAnimationDelay)
+        {
+            // Keep the character visually grounded
+            // while passing over small bumps or gaps.
+            isGrounded = true;
+            return;
+        }
+
+        // ==========================================
+        // ACTUALLY FALLING
+        // ==========================================
+
+        // After the delay, consider the player airborne.
+        isGrounded = false;
+
+        inAirTimer += Time.fixedDeltaTime;
+
+        // Only trigger the falling animation when
+        // the player is moving downwards fast enough.
+        if (!isFalling &&
+            playerRigidbody.velocity.y < minimumFallVelocity)
+        {
+            isFalling = true;
+
+            animatorManager.PlayAnimation("Falling");
+        }
+        ////Ground check to prevent null reference exception
+        //if (groundCheck == null)
+        //{
+        //    return;
+        //}
+
+        ////Create an invisible sphere at the GroundCheck object's position. If this sphere overlaps an object on the Ground Layer, Unity considers ground to be underneath the player.
+        //bool groundDetected = Physics.CheckSphere(groundCheck.position,groundCheckRadius,groundLayer,QueryTriggerInteraction.Ignore);
+
+        ////JUMP CHECK
+        //if (isJumping)
+        //{
+        //    //While jumping upwards, the player should not be considered grounded.
+        //    isGrounded = false;
+
+        //    //Reached the peak and started falling.
+        //    if (playerRigidbody.velocity.y <= 0f)
+        //    {
+        //        isJumping = false;
+        //        isFalling = true;
+
+        //        animatorManager.PlayAnimation("Falling");
+        //    }
+
+        //    return;
+        //}
+
+        ////FALLING / WALKED OFF EDGE
+        //if (!groundDetected)
+        //{
+        //    isGrounded = false;
+
+        //    if (!isFalling)
+        //    {
+        //        //Enter falling state and track how long in air
+        //        isFalling = true;
+        //        inAirTimer = 0f;
+
+        //        animatorManager.PlayAnimation("Falling");
+        //    }
+
+        //    inAirTimer += Time.deltaTime;
+
+        //    return;
+        //}
+
+        ////GROUNDED / LANDED
+        //if (groundDetected && playerRigidbody.velocity.y <= 0.1f)
+        //{
+        //    if (isFalling)
+        //    {
+        //        //Stop any leftover vertical motion so the player doesn't bounce back up after touching the ground.
+        //        Vector3 velocity = playerRigidbody.velocity;
+        //        velocity.y = 0f;
+        //        playerRigidbody.velocity = velocity;
+
+        //        animatorManager.PlayAnimation("Land");
+        //    }
+
+        //    isGrounded = true;
+        //    isJumping = false;
+        //    isFalling = false;
+
+        //    inAirTimer = 0f;
+        //}
     }
 
     public void HandleJumping()
@@ -245,6 +350,7 @@ public class PlayerLocomotion : MonoBehaviour
         isFalling = false;
 
         inAirTimer = 0f;
+        timeSinceGrounded = 0f;
 
         //Play the Jump animation.
         animatorManager.PlayAnimation("Jump");

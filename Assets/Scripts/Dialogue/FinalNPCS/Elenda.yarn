@@ -1,0 +1,324 @@
+﻿
+title: Elenda
+---
+<<declare $metElenda = false>>
+<<declare $elendaScrollQuestStarted = false>>
+<<declare $elendaScrollInfoFound = false>>
+<<declare $elendaScrollQuestComplete = false>>
+<<declare $elendaPotionGiven = false>>
+<<declare $elendaPositiveInteractionUnlocked = false>>
+<<declare $elendaPositiveInteractionSeen = false>>
+
+<<if $metElenda == false>>
+    Elenda: Hmph...
+    Elenda: Fragments of ancient magic, scattered across a broken landscape.
+    Elenda: Yet none of it behaves as it should.
+    {$playerName}: Are you talking to yourself?
+    Elenda: ...
+    Elenda: Apparently, I was.
+    Elenda: Do you make a habit of interrupting people while they are working?
+    -> Sorry, I didn't mean to interrupt
+        {$playerName}: Sorry. I didn't realise you were busy.
+        Elenda: At least you possess some manners.
+        Elenda: An increasingly rare quality.
+    -> I was just curious
+        {$playerName}: I was curious about what you were studying.
+        Elenda: Curiosity is a dangerous quality.
+        Elenda: Although I suppose it is preferable to ignorance.
+    -> You don't have to be so rude
+        {$playerName}: You don't have to be so rude.
+        Elenda: And you don't have to disturb my research.
+        Elenda: Yet here we are.
+    Elenda: ...
+    Elenda: Since you insist on remaining, perhaps you can make yourself useful.
+    {$playerName}: Useful?
+    Elenda: My name is Elenda.
+    Elenda: Though I suspect you may have heard another name.
+    {$playerName}: Which is?
+    Elenda: The Ashen Witch.
+    {$playerName}: You're a witch?
+    Elenda: An observant one, aren't you?
+    Elenda: I am a researcher of magic, curses, and matters most people are frightened by.
+    {$playerName}: And what are you researching here?
+    Elenda: That is precisely what I am attempting to determine.
+    Elenda: These islands are saturated with an unusual magical residue.
+    Elenda: Something powerful occurred here.
+    Elenda: Something that has distorted the natural order.
+    {$playerName}: Do you know what caused it?
+    Elenda: Not yet.
+    Elenda: However, I have heard an interesting rumour.
+    Elenda: Apparently, someone wandering these islands possesses an old scroll.
+    Elenda: One containing knowledge that may have been deliberately concealed.
+    {$playerName}: What kind of knowledge?
+    Elenda: If I knew that, I would hardly need the scroll.
+    Elenda: It may contain information about the islands.
+    Elenda: Or perhaps the curse that seems to linger over this place.
+    Elenda: Either way, I intend to examine it.
+    {$playerName}: Why don't you look for it yourself?
+    Elenda: Because I have more pressing matters to attend to.
+    Elenda: And because...
+    Elenda: ...
+    {$playerName}: Because?
+    Elenda: Nothing of consequence.
+    Elenda: Find whoever possesses the scroll.
+    Elenda: Discover what they know and report back to me.
+    -> I'll investigate the scroll
+        {$playerName}: Alright. I'll see what I can find.
+        Elenda: Good.
+        Elenda: Perhaps you will prove more useful than I initially expected.
+        <<set $elendaScrollQuestStarted = true>>
+        <<start_quest QuestManager "elenda_scroll">>
+    -> Why should I help you?
+        {$playerName}: What do I get out of helping you?
+        Elenda: Knowledge.
+        Elenda: And perhaps the opportunity to learn something that may save your life.
+        Elenda: I assure you, that is more valuable than a handful of coins.
+        {$playerName}: Fine. I'll investigate.
+        <<set $elendaScrollQuestStarted = true>>
+        <<start_quest QuestManager "elenda_scroll">>
+    -> I have other things to do
+        {$playerName}: I'm busy with something else right now.
+        Elenda: Then stop wasting my time.
+        Elenda: Return when you are prepared to be useful.
+    <<set $metElenda = true>>
+<<else>>
+    <<jump ElendaReturn>>
+<<endif>>
+===
+title: ElendaReturn
+---
+<<if $elendaScrollQuestComplete == true>>
+    <<jump ElendaRelationship>>
+<<elseif $elendaScrollQuestStarted == false>>
+    Elenda: You again.
+    Elenda: Have you reconsidered my proposal?
+    -> I'll investigate the scroll
+        {$playerName}: I'll find out who has that scroll.
+        Elenda: Good.
+        Elenda: Report back when you have something worth telling me.
+        <<set $elendaScrollQuestStarted = true>>
+        <<start_quest QuestManager "elenda_scroll">>
+    -> Not yet
+        {$playerName}: Not right now.
+        Elenda: Then I suggest you leave me to my research.
+<<elseif $elendaScrollInfoFound == true>>
+    Elenda: You're back.
+    Elenda: And judging by your expression, you have discovered something.
+    {$playerName}: I found information about the scroll.
+    Elenda: Then speak.
+    Elenda: I have little patience for dramatic pauses.
+    {$playerName}: Someone here has knowledge of an ancient scroll.
+    {$playerName}: It may contain information about the magic affecting these islands.
+    Elenda: Interesting...
+    Elenda: So the rumour was not entirely unfounded.
+    {$playerName}: Does that help?
+    Elenda: Considerably.
+    Elenda: Even knowing where to direct my research is valuable.
+    <<set $elendaScrollQuestComplete = true>>
+    <<complete_quest QuestManager "elenda_scroll">>
+    <<change_affection GameManager "characterelenda" 10>>
+    Elenda: You have done well.
+    Elenda: Better than I anticipated.
+    {$playerName}: Was that a compliment?
+    Elenda: Do not become accustomed to it.
+    Elenda: ...
+    Elenda: Nevertheless, you have my thanks.
+    <<jump ElendaPotionConversation>>
+<<else>>
+    Elenda: Have you discovered anything about the scroll?
+    -> Not yet
+        {$playerName}: I'm still looking.
+        Elenda: Then I suggest you continue looking.
+    -> Ask about the strange magic
+        {$playerName}: What have you discovered about this place?
+        Elenda: The magical residue here is unlike anything I have studied.
+        Elenda: And believe me, I have studied a great deal.
+        Elenda: Something has disrupted the boundaries between places that should never have touched.
+        {$playerName}: Is that why the islands are floating?
+        Elenda: Perhaps.
+        Elenda: But I will not offer conclusions without evidence.
+        <<jump ElendaReturn>>
+    -> Ask if she's alright
+        <<jump ElendaPotionConversation>>
+<<endif>>
+===
+
+title: ElendaPotionConversation
+---
+<<if $elendaPotionGiven == true>>
+    Elenda: My injuries are no longer a concern.
+    Elenda: You needn't ask again.
+    <<jump ElendaRelationship>>
+<<else>>
+    {$playerName}: Are you alright?
+    Elenda: Perfectly.
+    {$playerName}: You don't look perfectly alright.
+    Elenda: Your concern is unnecessary.
+    {$playerName}: You're holding your arm.
+    Elenda: ...
+    Elenda: An unfortunate consequence of investigating an unstable magical formation.
+    Elenda: I miscalculated the strength of a defensive enchantment.
+    Elenda: The resulting discharge was... unpleasant.
+    {$playerName}: So you got hurt?
+    Elenda: A minor injury.
+    Elenda: Hardly worth discussing.
+    Elenda: Although...
+    Elenda: A restorative concoction would accelerate the healing process.
+    {$playerName}: You mean a Health Potion?
+    Elenda: Naturally.
+    Elenda: Unfortunately, my supplies were lost when I arrived here.
+    Elenda: But I am perfectly capable of managing without one.
+    <<if has_item("health_potion")>>
+        -> Give Elenda a Health Potion
+            {$playerName}: Here. You can have mine.
+            Elenda: ...
+            Elenda: You would give me a potion without asking for anything in return?
+            {$playerName}: You need it more than I do.
+            Elenda: How peculiar.
+            <<remove_item GameManager "health_potion">>
+            <<set $elendaPotionGiven = true>>
+            <<change_affection GameManager "characterelenda" 10>>
+            Elenda: Very well.
+            Elenda: I accept.
+            Elenda: ...
+            Elenda: Thank you.
+            {$playerName}: You're welcome.
+            Elenda: Do not misunderstand.
+            Elenda: This does not mean I suddenly require your assistance with everything.
+            {$playerName}: Of course not.
+            Elenda: ...
+            Elenda: Still, your kindness will not be forgotten.
+    <<else>>
+        -> I'll find you a Health Potion
+            {$playerName}: I'll see if I can find something to help.
+            Elenda: I did not ask you to do that.
+            {$playerName}: I know.
+            Elenda: ...
+            Elenda: Do as you wish.
+    <<endif>>
+    -> Leave her to rest
+        {$playerName}: I'll let you get back to your research.
+
+        Elenda: Sensible.
+<<endif>>
+<<if $elendaScrollQuestComplete == true && $elendaPotionGiven == true>>
+    <<set $elendaPositiveInteractionUnlocked = true>>
+    Elenda: Before you go...
+    Elenda: There is something I would like to discuss with you.
+    Elenda: When you have the time.
+<<endif>>
+===
+title: ElendaRelationship
+---
+<<if $elendaPositiveInteractionSeen == true>>
+    Elenda: Ah. You've returned.
+    Elenda: I was reviewing my research notes.
+    Elenda: I suppose a short interruption would not be entirely unwelcome.
+<<elseif $elendaPositiveInteractionUnlocked == true>>
+    Elenda: There you are.
+    Elenda: I was beginning to wonder whether you intended to return.
+    {$playerName}: Were you waiting for me?
+    Elenda: Do not be absurd.
+    Elenda: I merely wished to discuss something.
+<<else>>
+    Elenda: You've returned.
+    Elenda: Have you something useful to discuss?
+<<endif>>
+-> Ask about her research
+    {$playerName}: How long have you been studying magic?
+    Elenda: Longer than you might imagine.
+    Elenda: Centuries of observation, experimentation, and disappointment.
+    {$playerName}: Centuries?
+    Elenda: Yes.
+    Elenda: Magic has a tendency to preserve those who understand it.
+    Elenda: Whether that preservation is a blessing is another matter.
+    <<jump ElendaRelationship>>
+-> Ask about the curse
+    {$playerName}: Do you know anything about curses?
+    Elenda: More than most.
+    Elenda: Curses are rarely as simple as the stories suggest.
+    Elenda: Some can be broken.
+    Elenda: Others merely change form.
+    {$playerName}: Could you help someone suffering from one?
+    Elenda: Possibly.
+    Elenda: But I would need to examine the curse before making promises.
+    Elenda: Bring me evidence, and perhaps we can discuss it further.
+    <<jump ElendaRelationship>>
+<<if $elendaPotionGiven == false>>
+    -> Ask about her injury
+        <<jump ElendaPotionConversation>>
+<<endif>>
+<<if $elendaPositiveInteractionUnlocked == true>>
+    -> Speak with Elenda privately
+        <<jump ElendaPositiveInteraction>>
+<<endif>>
+-> Leave
+    {$playerName}: I'll leave you to your work.
+
+    Elenda: Very well.
+    Elenda: Try not to get yourself killed.
+===
+ 
+title: ElendaPositiveInteraction
+---
+Elenda: Close the door.
+Elenda: Or at least ensure no one is listening.
+{$playerName}: Is something wrong?
+Elenda: No.
+Elenda: I simply prefer conversations without unnecessary witnesses.
+Elenda: I have spent centuries studying magic.
+Elenda: I have witnessed kingdoms rise, flourish, and disappear.
+Elenda: And through it all, I have remained.
+{$playerName}: That sounds lonely.
+Elenda: Loneliness is an indulgence I cannot afford.
+Elenda: Research requires discipline.
+Elenda: Attachments complicate matters.
+{$playerName}: But you still wanted to talk to me.
+Elenda: ...
+Elenda: You helped me locate information that may be valuable.
+Elenda: And you offered assistance when you had nothing to gain.
+Elenda: I find that... difficult to understand.
+{$playerName}: Why?
+Elenda: Because most people seek something from me.
+Elenda: Power. Knowledge. Protection.
+Elenda: Rarely do they concern themselves with the person behind the title.
+Elenda: Tell me something.
+Elenda: Why did you help me?
+-> Because you deserved kindness
+    {$playerName}: Because you deserved kindness, just like anyone else.
+    Elenda: ...
+    Elenda: An unusual answer.
+    Elenda: Yet I find myself hoping you mean it.
+    <<if $elendaPositiveInteractionSeen == false>>
+        <<change_affection GameManager "characterelenda" 5>>
+    <<endif>>
+-> Because I want to understand you
+    {$playerName}: Because I want to understand you, not just the Ashen Witch.
+    Elenda: Understand me?
+    Elenda: A rather ambitious undertaking.
+    Elenda: ...
+    Elenda: But perhaps not an unwelcome one.
+    <<if $elendaPositiveInteractionSeen == false>>
+        <<change_affection GameManager "characterelenda" 5>>
+    <<endif>>
+-> Because your knowledge could help me
+    {$playerName}: Because your knowledge might help me find a way out.
+    Elenda: At least you are honest.
+    Elenda: I can respect that.
+<<set $elendaPositiveInteractionSeen = true>>
+Elenda: There is something else.
+{$playerName}: What is it?
+Elenda: If you intend to continue exploring these islands, you will need more than a sword and blind determination.
+Elenda: I may be willing to teach you a few things.
+{$playerName}: You'd teach me magic?
+Elenda: Perhaps.
+Elenda: If you demonstrate the patience and discipline required.
+Elenda: Consider it an offer.
+Elenda: One I do not extend lightly.
+{$playerName}: I'll keep that in mind.
+Elenda: Good.
+Elenda: And {$playerName}...
+{$playerName}: Yes?
+Elenda: Thank you.
+Elenda: For treating me as something more than a title.
+===

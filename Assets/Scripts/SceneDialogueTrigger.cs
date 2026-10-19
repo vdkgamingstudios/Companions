@@ -36,17 +36,21 @@ public class SceneDialogueTrigger : MonoBehaviour
 
     public void StartSceneDialogue()
     {
+        Debug.Log("SCENE DIALOGUE: Attempting to start.");
+
         if (dialogueRunner == null)
         {
-            Debug.LogWarning("Dialogue Runner is not assigned!");
+            Debug.LogError("SCENE DIALOGUE: Dialogue Runner is missing!");
             return;
         }
 
         if (dialogueRunner.IsDialogueRunning)
         {
-            Debug.LogWarning("Dialogue is already running.");
+            Debug.LogWarning("SCENE DIALOGUE: Dialogue already running.");
             return;
         }
+
+        Debug.Log("SCENE DIALOGUE: Starting node " + startingNode);
 
         dialogueRunner.StartDialogue(startingNode);
     }

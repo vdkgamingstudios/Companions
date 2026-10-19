@@ -1,0 +1,304 @@
+﻿
+title: Thalia
+---
+<<declare $thaliaReceivedGem = false>>
+<<declare $thaliaPositiveInteractionUnlocked = false>>
+<<declare $thaliaPositiveInteractionSeen = false>>
+<<declare $metThalia = false>>
+<<declare $towerInvestigationStarted = false>>
+<<declare $towerInvestigationComplete = false>>
+<<declare $towerPeopleSpokenTo = 0>>
+<<declare $spokeToVillagerAboutTower = false>>
+<<if $metThalia == false>>
+    Thalia: Well, well... What have we here?
+    {$playerName}: Who said that?
+    Thalia: Behind you.
+    {$playerName}: What?!
+    Thalia: Hah! You should have seen your face.
+    Thalia: Relax. If I wanted to hurt you, you wouldn't have heard me coming.
+    {$playerName}: Who are you?
+    Thalia: Depends who's asking.
+    {$playerName}: Someone who's trying to figure out where they are.
+    Thalia: Hm. Then I suppose we're in the same boat.
+    Thalia: Name's Thalia. Though most people know me as the Ghost.
+    {$playerName}: The Ghost?
+    Thalia: What can I say? I've got a talent for being somewhere I'm not supposed to be.
+    Thalia: Guards never see me coming, and by the time they notice something's missing...
+    Thalia: Well, I'm already gone.
+    {$playerName}: So you're a thief?
+    Thalia: Such an ugly word.
+    Thalia: I prefer someone with exceptionally good borrowing skills.
+    {$playerName}: Right...
+    Thalia: Anyway, I was minding my own business gathering supplies around town.
+    Thalia: Nothing particularly exciting.
+    Thalia: Then, next thing I know, I'm waking up in a graveyard.
+    {$playerName}: A graveyard?
+    Thalia: Yep. Surrounded by tombstones.
+    Thalia: Almost makes you wonder if the Ghost finally became an actual ghost.
+    {$playerName}: You don't remember how you got there?
+    Thalia: Not a thing.
+    Thalia: And trust me, I don't like forgetting things.
+    Thalia: Especially when I wake up somewhere I didn't intend to be.
+    {$playerName}: You're not the only one.
+    {$playerName}: Other people seem to have woken up here too.
+    Thalia: So I've noticed.
+    Thalia: Funny thing is, nobody seems to remember exactly what happened.
+    {$playerName}: Do you think it has something to do with the tower?
+    Thalia: Maybe.
+    Thalia: I've heard a few people mention it.
+    Thalia: But rumours are about as useful as a lock without a key.
+    Thalia: We need something more concrete.
+    {$playerName}: What are you suggesting?
+    Thalia: Simple.
+    Thalia: You talk to the people around here.
+    Thalia: Find out what they remember before waking up on this island.
+    Thalia: Three different people should give us somewhere to start.
+    {$playerName}: Why don't you ask them yourself?
+    Thalia: Because people tend to get nervous when the Ghost starts asking questions.
+    Thalia: Besides, you're new here. People might be more willing to talk to you.
+    {$playerName}: So you want me to do the talking?
+    Thalia: Exactly! See? You're catching on.
+    -> Agree to help
+        {$playerName}: Alright. I'll see what I can find out.
+        Thalia: Good. Speak to three people and come back to me.
+        Thalia: I want to know what they remember about the tower and how they ended up here.
+        <<set $towerInvestigationStarted = true>>
+        <<start_quest QuestManager "investigate_tower">>
+        Thalia: And try not to get yourself killed.
+        Thalia: I'd hate to have another ghost wandering around here.
+    -> Not right now
+        {$playerName}: I've got other things to deal with first.
+        Thalia: Suit yourself.
+        Thalia: But if you want answers, you'll need to start asking questions.
+    <<set $metThalia = true>>
+<<else>>
+    <<jump ThaliaReturn>>
+<<endif>>
+===
+
+title: ThaliaReturn
+---
+<<if $towerInvestigationComplete == true>>
+    <<jump ThaliaRelationship>>
+<<elseif $towerInvestigationStarted == false>>
+    Thalia: Well, look who decided to show up again.
+    Thalia: Changed your mind about helping me investigate?
+    -> Accept the investigation
+        {$playerName}: Alright. I'll help you find out what happened.
+        Thalia: Excellent!
+        Thalia: I knew you'd come around eventually.
+        Thalia: Speak to three people and find out what they remember.
+        <<set $towerInvestigationStarted = true>>
+        <<start_quest QuestManager "investigate_tower">>
+        Thalia: Come back when you've learned something useful.
+    -> Leave
+        {$playerName}: Maybe later.
+        Thalia: Don't take too long.
+        Thalia: I'd rather not spend eternity on this floating rock.
+<<elseif $towerPeopleSpokenTo >= 3 && $foundTeleporter == true && $spokeToVillagerAboutTower == true>>
+    Thalia: There you are.
+    Thalia: You've been busy, haven't you?
+    {$playerName}: I've spoken to three people about what happened.
+    Thalia: Three? Not bad.
+    Thalia: Let's hear what you've learned.
+    {$playerName}: Everyone remembers something strange happening near the tower.
+    {$playerName}: A bright light, shaking, and then waking up here.
+    Thalia: Sounds familiar.
+    Thalia: I remember waking up in that graveyard, but everything before that is a blur.
+    {$playerName}: There's something else.
+    Thalia: Oh?
+    Thalia: Don't keep me waiting.
+    {$playerName}: I found a portal nearby.
+    Thalia: A portal?
+    Thalia: Now that's interesting.
+    {$playerName}: I also went back to speak with the Lost Villager.
+    {$playerName}: He remembered seeing a strange light coming from the tower before everything happened.
+    Thalia: Huh...
+    Thalia: So the tower and that portal might be connected.
+    {$playerName}: That's what he thinks.
+    Thalia: Well, it's certainly more information than we had before.
+    Thalia: A mysterious tower, floating islands, and a portal that leads who knows where.
+    Thalia: Sounds like someone's been keeping secrets.
+    {$playerName}: What do you think we should do?
+    Thalia: Keep investigating, obviously.
+    Thalia: But for now, you've done what I asked.
+    <<set $towerInvestigationComplete = true>>
+    <<complete_quest QuestManager "investigate_tower">>
+    <<change_affection GameManager "characterthalia" 10>>
+    Thalia: You've earned my trust.
+    Thalia: A little, anyway.
+    {$playerName}: I'll take that as a compliment.
+    Thalia: You should.
+    Thalia: I don't hand those out often.
+    Thalia: Besides, someone who can uncover a secret like that might be useful to have around.
+    {$playerName}: So we're working together now?
+    Thalia: Don't get ahead of yourself.
+    Thalia: But I suppose I wouldn't mind having you around.
+<<else>>
+    Thalia: Back already?
+    Thalia: Have you learned anything useful?
+    {$playerName}: I've spoken to {$towerPeopleSpokenTo} people so far.
+    <<if $towerPeopleSpokenTo == 0>>
+        Thalia: Nothing yet?
+        Thalia: Well, answers aren't going to come knocking on your door.
+        Thalia: Go talk to a few people.
+    <<elseif $towerPeopleSpokenTo < 3>>
+        Thalia: Good. Keep going.
+        Thalia: I want to hear what three different people remember.
+    <<elseif $foundTeleporter == false>>
+        Thalia: Three people? Not bad.
+        Thalia: But I still feel like we're missing something.
+        Thalia: Keep exploring.
+        Thalia: There might be something around here that explains what happened.
+    <<elseif $spokeToVillagerAboutTower == false>>
+        Thalia: You've found a portal?
+        Thalia: Now that's something worth investigating.
+        Thalia: Didn't you mention a Lost Villager earlier?
+        Thalia: Maybe finding that portal will help jog his memory.
+        Thalia: Go see what he knows.
+    <<endif>>
+    Thalia: And keep your eyes open.
+    Thalia: Something about this place doesn't feel right.
+<<endif>>
+===
+title: ThaliaRelationship
+---
+<<if $thaliaPositiveInteractionSeen == true>>
+    Thalia: Well, if it isn't my favourite partner in crime.
+    Thalia: Relax. I'm joking.
+    Thalia: Mostly.
+<<elseif $thaliaReceivedGem == true>>
+    Thalia: Oh! {$playerName}.
+    Thalia: Here to check whether I've stolen anything else?
+    {$playerName}: Should I be worried?
+    Thalia: Only if you've brought something shiny.
+<<else>>
+    Thalia: Look who it is.
+    Thalia: My favourite little investigator.
+    {$playerName}: Still calling me that?
+    Thalia: Until you give me a reason to stop.
+<<endif>>
+-> Ask how she's doing
+    {$playerName}: How have you been holding up?
+    Thalia: Better than when I woke up in that graveyard.
+    Thalia: Though that's not exactly a high standard.
+    {$playerName}: Still thinking about what happened?
+    Thalia: Of course.
+    Thalia: But I suppose having someone else around makes things a little less miserable.
+    {$playerName}: I'll take that as a compliment.
+    Thalia: Don't let it go to your head.
+    <<jump ThaliaRelationship>>
+<<if $thaliaReceivedGem == false && has_item("gem")>>
+    -> Give Thalia a Gem
+        <<jump ThaliaGemGift>>
+<<endif>>
+<<if $thaliaPositiveInteractionUnlocked == true>>
+    -> Spend some time with Thalia
+        <<jump ThaliaPositiveInteraction>>
+<<endif>>
+-> Leave
+    {$playerName}: I'll see you around, Thalia.
+    Thalia: Try not to get into too much trouble.
+    Thalia: Leave some for me.
+===
+title: ThaliaGemGift
+---
+{$playerName}: Hey, Thalia. I've got something for you.
+Thalia: Oh?
+Thalia: Should I be worried?
+{$playerName}: I thought you might like this.
+Thalia: Wait...
+Thalia: Is that a gem?
+{$playerName}: Yeah. I found it while exploring.
+Thalia: You're willingly handing a valuable gem to a thief?
+Thalia: You really are something else.
+{$playerName}: Do you want it or not?
+Thalia: Well, when you put it like that...
+-> Give Thalia the Gem
+    {$playerName}: Here. It's yours.
+    Thalia: Huh...
+    Thalia: You really are giving it to me.
+    {$playerName}: Is that so surprising?
+    Thalia: Usually when someone hands me something valuable,
+    Thalia: It's because I convinced them it was a good idea.
+    {$playerName}: And this time?
+    Thalia: This time you did it all on your own.
+    Thalia: Honestly, you're making my job far too easy.
+    <<remove_item GameManager "gem">>
+    <<set $thaliaReceivedGem = true>>
+    <<set $thaliaPositiveInteractionUnlocked = true>>
+    <<change_affection GameManager "characterthalia" 15>>
+    Thalia: Jokes aside...
+    Thalia: Thank you.
+    {$playerName}: You're welcome.
+    Thalia: Don't look so surprised.
+    Thalia: Even ghosts know how to appreciate a gift.
+    Thalia: I'll keep it somewhere safe.
+    Thalia: And before you ask, no, you can't have it back.
+    {$playerName}: I wasn't going to ask.
+    Thalia: Good.
+    Thalia: Because I think I'll hold onto this one.
+-> Keep the Gem
+    {$playerName}: Actually, I think I'll keep it for now.
+    Thalia: Hah! There it is.
+    Thalia: I was beginning to think you had absolutely no survival instincts.
+    Thalia: Smart choice.
+    Thalia: Never trust a thief with something shiny.
+===
+title: ThaliaPositiveInteraction
+---
+Thalia: Hey, {$playerName}.
+Thalia: Got a moment?
+{$playerName}: Sure. What's up?
+Thalia: Nothing serious.
+Thalia: I just wanted to ask you something.
+{$playerName}: That's unusual.
+Thalia: Oh, very funny.
+Thalia: Keep that up and I'll start charging you for my company.
+{$playerName}: What's on your mind?
+Thalia: That gem you gave me...
+Thalia: Why did you do it?
+{$playerName}: What do you mean?
+Thalia: You could've sold it.
+Thalia: Or kept it for yourself.
+Thalia: But instead, you gave it to someone you barely know.
+-> Because I wanted to make you happy
+    {$playerName}: I thought it might make you happy.
+    Thalia: ...
+    Thalia: You really don't know when to stop surprising me, do you?
+    {$playerName}: Is that a bad thing?
+    Thalia: No.
+    Thalia: I suppose it isn't.
+    <<if $thaliaPositiveInteractionSeen == false>>
+        <<change_affection GameManager "characterthalia" 5>>
+    <<endif>>
+-> Because I trust you
+    {$playerName}: Because I trust you.
+    Thalia: Trust me?
+    Thalia: You do remember what I do for a living, right?
+    {$playerName}: I do.
+    Thalia: Hm.
+    Thalia: You're either incredibly brave or incredibly foolish.
+    {$playerName}: Which one?
+    Thalia: ...
+    Thalia: I'll let you know when I figure it out.
+    <<if $thaliaPositiveInteractionSeen == false>>
+        <<change_affection GameManager "characterthalia" 5>>
+    <<endif>>
+-> I thought a thief would appreciate something valuable
+    {$playerName}: I figured a thief would appreciate something valuable.
+    Thalia: Hah!
+    Thalia: Now that's an answer I can respect.
+    {$playerName}: Glad you approve.
+    Thalia: Careful.
+    Thalia: Keep giving me things and I might start expecting them.
+<<set $thaliaPositiveInteractionSeen = true>>
+Thalia: Anyway...
+Thalia: I just wanted to say that I appreciate it.
+{$playerName}: You're welcome.
+Thalia: Now, if you tell anyone I was being sentimental,
+Thalia: I'll deny every word.
+{$playerName}: Your secret's safe with me.
+Thalia: Good.
+Thalia: Maybe you really are someone I can trust.
+===

@@ -1,0 +1,119 @@
+﻿
+title: Liliana
+---
+<<declare $metLiliana = false>>
+<<declare $spokeToLilianaAboutTower = false>>
+<<if $metLiliana == false>>
+    Liliana: Ahh! Who's there?!
+    {$playerName}: Whoa! Sorry, I didn't mean to scare you.
+    Liliana: Oh, thank goodness...
+    Liliana: You're actually a person, aren't you?
+    {$playerName}: Last time I checked.
+    Liliana: Sorry! I wasn't expecting to find anyone else here.
+    Liliana: I've been wandering around since I woke up, and everything feels strange.
+    {$playerName}: You woke up here too?
+    Liliana: Wait, you mean the same thing happened to you?
+    {$playerName}: I don't remember much about how I got here.
+    Liliana: That's a little worrying...
+    Liliana: The last thing I remember was being near the tower.
+    Liliana: There was this strange noise, almost like something breaking.
+    Liliana: Then everything started shaking.
+    Liliana: I remember a bright flash of light...
+    Liliana: And then nothing.
+    {$playerName}: So you woke up on this island?
+    Liliana: Exactly!
+    Liliana: I thought I was dreaming.
+    Liliana: I mean, we're standing on an island floating in the sky!
+    {$playerName}: Have you seen anyone else around here?
+    Liliana: Actually, yes!
+    Liliana: I've seen a few people wandering around.
+    Liliana: Some seem just as confused as we are.
+    Liliana: I haven't spoken to everyone.
+    Liliana: However, I think we all ended up here after something happened at the tower.
+    {$playerName}: That sounds like more than a coincidence.
+    Liliana: I think so too.
+    Liliana: Whatever happened there must have affected more than just us.
+    <<set $metLiliana = true>>
+    <<jump LilianaTowerInformation>>
+<<else>>
+    Liliana: Oh! {$playerName}, it's good to see you again.
+    <<jump LilianaReturn>>
+<<endif>>
+===
+
+title: LilianaTowerInformation
+---
+<<if $towerInvestigationStarted == true && $spokeToLilianaAboutTower == false>>
+    <<set $spokeToLilianaAboutTower = true>>
+    <<set $towerPeopleSpokenTo += 1>>
+    //Liliana counts as one person interviewed.
+<<endif>>
+<<if $towerInvestigationStarted == true && $spokeToLilianaAboutTower == false>>
+    <<set $spokeToLilianaAboutTower = true>>
+    <<set $towerPeopleSpokenTo += 1>>
+<<endif>>
+<<jump LilianaGemQuest>>
+===
+
+title: LilianaGemQuest
+---
+
+<<if $gemQuestComplete == true>>
+    Liliana: Thank you again for finding my gem.
+    Liliana: I feel much better knowing it's safe.
+<<elseif has_item("gem")>>
+    Liliana: Wait a moment...
+    Liliana: Is that the gem I've been looking for?!
+    -> Give the Gem
+        {$playerName}: You mean this?
+        Liliana: Yes! That's exactly the one!
+        Liliana: I can't believe you found it!
+        <<start_quest QuestManager "find_gem">>
+        <<remove_item GameManager "gem">>
+        <<set $gemQuestComplete = true>>
+        Liliana: Thank you so much, {$playerName}.
+        Liliana: I was starting to think I'd lost it forever.
+        Liliana: I want you to have something in return.
+        Liliana: I found this some time ago.
+        Liliana: Perhaps you'll find someone who would appreciate it.
+        <<give_special_gift GameManager>>
+        <<complete_quest QuestManager "find_gem">>
+        {$playerName}: Thank you.
+    -> Keep the Gem
+        {$playerName}: I think I'll hold onto it for now.
+        Liliana: Oh... I see.
+        Liliana: Well, if you change your mind, please let me know.
+        <<start_quest QuestManager "find_gem">>
+<<else>>
+    <<if $gemQuestComplete == false>>
+        Liliana: Oh! Before you go, could I ask you something?
+        {$playerName}: What is it?
+        Liliana: When I woke up here, I realised something important was missing.
+        Liliana: A gem I always kept with me.
+        Liliana: It's quite precious to me, and I'm worried I lost it somewhere on the island.
+        {$playerName}: What does it look like?
+        Liliana: It's a strange-looking gem.
+        Liliana: You should recognise it if you come across it.
+        Liliana: Would you mind keeping an eye out for it?
+        {$playerName}: Sure. If I find it, I'll bring it back.
+        Liliana: Really? Thank you so much!
+        <<start_quest QuestManager "find_gem">>
+    <<endif>>
+<<endif>>
+===
+
+title: LilianaReturn
+---
+-> Ask about the tower
+    {$playerName}: Can you remind me what you remember about the tower?
+    Liliana: There was a strange noise, and everything started shaking.
+    Liliana: Then a bright light appeared.
+    Liliana: That's the last thing I remember before waking up here.
+    <<jump LilianaTowerInformation>>
+-> Ask about the missing gem
+    <<jump LilianaGemQuest>>
+-> Leave
+    {$playerName}: I'll keep looking around.
+    Liliana: Take care, {$playerName}.
+===
+

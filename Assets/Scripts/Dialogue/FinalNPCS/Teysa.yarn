@@ -1,0 +1,259 @@
+
+title: Teysa
+---
+<<declare $metTeysa = false>>
+<<declare $teysaAdmiredIslands = false>>
+<<declare $teysaAppleQuestStarted = false>>
+<<declare $teysaAppleQuestComplete = false>>
+<<declare $teysaPositiveInteractionUnlocked = false>>
+<<declare $teysaPositiveInteractionSeen = false>>
+<<if $metTeysa == false>>
+    Teysa: Wow...
+    Teysa: Even from here, you can see all those islands floating in the distance.
+    Teysa: It's almost like someone scattered pieces of the world across the sky.
+    {$playerName}: Enjoying the view?
+    Teysa: Ah!
+    Teysa: Oh! Sorry, I didn't hear you coming.
+    Teysa: I was a little distracted.
+    {$playerName}: I can see that.
+    Teysa: Can you blame me?
+    Teysa: Look at those islands!
+    Teysa: The way the light falls across them...
+    Teysa: It's beautiful, isn't it?
+    -> It really is beautiful
+        {$playerName}: Yeah. It's one of the most beautiful things I've ever seen.
+        Teysa: You think so too?
+        Teysa: I'm glad!
+        Teysa: I was beginning to think I was the only one who could appreciate something like this.
+        <<set $teysaAdmiredIslands = true>>
+        <<change_affection GameManager "characterteysa" 5>>
+        Teysa: It's nice having someone to share the view with.
+    -> It's strange more than beautiful
+        {$playerName}: It's certainly strange. I don't think I've ever seen anything like it.
+        Teysa: That's fair.
+        Teysa: I suppose something can be both strange and beautiful.
+    -> We should focus on finding a way out
+        {$playerName}: It looks impressive, but shouldn't we be figuring out how to leave?
+        Teysa: Oh...
+        Teysa: You're right, of course.
+        Teysa: I suppose I got a little carried away.
+    Teysa: Oh! Where are my manners?
+    Teysa: My name is Teysa.
+    Teysa: Though some people call me the Child of the Void.
+    {$playerName}: Child of the Void?
+    Teysa: It's a rather dramatic title, isn't it?
+    Teysa: I didn't exactly choose it.
+    Teysa: People tend to give names to things they don't understand.
+    {$playerName}: What do you mean?
+    Teysa: It's... a long story.
+    Teysa: Maybe I'll tell you sometime.
+    {$playerName}: What do you do?
+    Teysa: I'm an alchemist!
+    Teysa: I make potions, study unusual materials, and occasionally create something that explodes when it shouldn't.
+    {$playerName}: Occasionally?
+    Teysa: Well...
+    Teysa: More often than I'd like to admit.
+    {$playerName}: Sounds dangerous.
+    Teysa: Only when something goes wrong!
+    Teysa: Which is why I always try to be careful.
+    Teysa: Anyway, I've been studying the surroundings since I woke up here.
+    Teysa: The floating islands don't seem to behave like anything I've encountered before.
+    Teysa: I'd love to investigate them properly.
+    Teysa: Although...
+    {$playerName}: Something wrong?
+    Teysa: Um...
+    Teysa: This is a little embarrassing, but...
+    Teysa: *Grrrr...*
+    {$playerName}: Was that your stomach?
+    Teysa: ...
+    Teysa: Unfortunately, yes.
+    Teysa: I've been so distracted by the view that I completely forgot to eat.
+    Teysa: I don't suppose you've seen any food around here?
+    {$playerName}: Not much. What are you looking for?
+    Teysa: Nothing fancy.
+    Teysa: An apple would be lovely, actually.
+    Teysa: Would you mind bringing me one if you happen to find it?
+    -> Of course, I'll find you an apple
+        {$playerName}: Sure. I'll see what I can find.
+        Teysa: Really?
+        Teysa: Thank you!
+        Teysa: That's very kind of you.
+        <<set $teysaAppleQuestStarted = true>>
+        <<start_quest QuestManager "teysa_apple">>
+    -> I'll see what I can do
+        {$playerName}: I'll keep an eye out, but I can't promise anything.
+        Teysa: That's alright!
+        Teysa: I appreciate you considering it.
+        <<set $teysaAppleQuestStarted = true>>
+        <<start_quest QuestManager "teysa_apple">>
+    -> Not right now
+        {$playerName}: Sorry, I've got other things to do.
+        Teysa: Oh, that's alright.
+        Teysa: I'll manage somehow.
+    <<set $metTeysa = true>>
+<<else>>
+    <<jump TeysaReturn>>
+<<endif>>
+===
+
+title: TeysaReturn
+---
+<<if $teysaAppleQuestComplete == true>>
+    <<jump TeysaRelationship>>
+<<elseif $teysaAppleQuestStarted == false>>
+    Teysa: Oh! Hello again, {$playerName}.
+    Teysa: It's nice to see you.
+    Teysa: I don't suppose you've reconsidered helping me find something to eat?
+    -> I'll bring you an apple
+        {$playerName}: Sure. I'll get you an apple.
+        Teysa: Really? Thank you!
+        <<set $teysaAppleQuestStarted = true>>
+        <<start_quest QuestManager "teysa_apple">>
+    -> Maybe later
+        {$playerName}: Maybe later.
+        Teysa: That's alright.
+        Teysa: I'll be here admiring the view.
+<<elseif has_item("apple")>>
+    Teysa: Oh! {$playerName}, you're back!
+    {$playerName}: I found something for you.
+    Teysa: Is that an apple?
+    Teysa: It looks wonderful!
+    -> Give Teysa the Apple
+        {$playerName}: Here. You looked like you needed it.
+        Teysa: Really? For me?
+        {$playerName}: Of course.
+        <<remove_item GameManager "apple">>
+        <<set $teysaAppleQuestComplete = true>>
+        <<complete_quest QuestManager "teysa_apple">>
+        <<change_affection GameManager "characterteysa" 10>>
+        Teysa: Thank you so much!
+        Teysa: You have no idea how hungry I was.
+        Teysa: *Crunch!*
+        Teysa: Mmm!
+        Teysa: That's much better.
+        {$playerName}: Glad I could help.
+        Teysa: You know...
+        Teysa: Most people don't usually go out of their way to help me.
+        {$playerName}: Why not?
+        Teysa: Oh, it's nothing.
+        Teysa: People can be a little... uncomfortable around me.
+        {$playerName}: Well, I'm not.
+        Teysa: ...
+        Teysa: That's nice to hear.
+        <<if $teysaAdmiredIslands == true>>
+            <<set $teysaPositiveInteractionUnlocked = true>>
+            Teysa: You know, I remember what you said about the islands earlier.
+            Teysa: Maybe we could enjoy the view together again sometime?
+        <<endif>>
+    -> Keep the Apple
+        {$playerName}: Actually, I think I'll hold onto it for now.
+        Teysa: Oh...
+        Teysa: That's alright.
+        Teysa: Let me know if you change your mind.
+<<else>>
+    Teysa: Hello again, {$playerName}!
+    Teysa: Have you had any luck finding an apple?
+    {$playerName}: Not yet.
+    Teysa: That's alright.
+    Teysa: I'm sure you'll find something eventually.
+<<endif>>
+===
+
+title: TeysaRelationship
+---
+<<if $teysaPositiveInteractionSeen == true>>
+    Teysa: Oh! {$playerName}!
+    Teysa: I was hoping I'd see you again.
+    Teysa: The view is even nicer when there's someone to share it with.
+<<elseif $teysaPositiveInteractionUnlocked == true>>
+    Teysa: Hello, {$playerName}!
+    Teysa: I was just thinking about you.
+    {$playerName}: Really?
+    Teysa: Oh! I mean...
+    Teysa: I was thinking about how you helped me.
+    Teysa: And how you appreciated the islands too.
+<<else>>
+    Teysa: Oh! Hello again, {$playerName}.
+    Teysa: Thank you again for bringing me that apple.
+    Teysa: I'm feeling much better now.
+<<endif>>
+-> Ask about her alchemy
+    {$playerName}: How did you become interested in alchemy?
+    Teysa: I've always loved discovering how things work.
+    Teysa: Mixing ingredients, testing theories, creating something new...
+    Teysa: It's exciting!
+    Teysa: Sometimes experiments don't go quite as planned.
+    Teysa: But every mistake teaches me something.
+    {$playerName}: Sounds like you really enjoy it.
+    Teysa: I do!
+    Teysa: Maybe I'll show you some of my inventions someday.
+    <<jump TeysaRelationship>>
+-> Ask about the Child of the Void
+    {$playerName}: You mentioned people call you the Child of the Void.
+    Teysa: Oh...
+    Teysa: Yes.
+    Teysa: It's a name people gave me because of something that happened to my family.
+    Teysa: The effects changed how I look.
+    Teysa: People started treating me differently after that.
+    {$playerName}: That must have been difficult.
+    Teysa: It was.
+    Teysa: But I try not to let it stop me from doing what I love.
+    Teysa: Maybe one day I'll tell you more about it.
+    <<jump TeysaRelationship>>
+<<if $teysaPositiveInteractionUnlocked == true>>
+    -> Admire the floating islands together
+        <<jump TeysaPositiveInteraction>>
+<<endif>>
+
+-> Leave
+    {$playerName}: I'll see you around, Teysa.
+    Teysa: Take care!
+    Teysa: And don't forget to eat something yourself!
+===
+ 
+title: TeysaPositiveInteraction
+---
+Teysa: I'm glad you came back.
+Teysa: I was hoping we could spend a little time together.
+{$playerName}: I'd like that.
+Teysa: Look at the islands...
+Teysa: Even after everything that's happened, they're still so beautiful.
+Teysa: Sometimes I wonder if people see the same things I do.
+{$playerName}: What do you mean?
+Teysa: People often look at something unfamiliar and immediately assume it's dangerous.
+Teysa: But I think unfamiliar things can be wonderful too.
+Teysa: I suppose that's why I enjoy alchemy.
+Teysa: There's always something new to discover.
+Teysa: Can I ask you something?
+{$playerName}: Of course.
+Teysa: Do you think something can still be beautiful, even if it's different from everything else?
+-> Of course. Being different doesn't make something less beautiful
+    {$playerName}: Of course.
+    {$playerName}: Being different doesn't make something less beautiful.
+    Teysa: ...
+    Teysa: Thank you.
+    Teysa: That means more to me than you might realise.
+    <<if $teysaPositiveInteractionSeen == false>>
+        <<change_affection GameManager "characterteysa" 5>>
+    <<endif>>
+-> I think everyone deserves to be appreciated
+    {$playerName}: I think everyone deserves to be appreciated for who they are.
+    Teysa: You really believe that?
+    {$playerName}: I do.
+    Teysa: I'm glad.
+    Teysa: It's nice knowing someone thinks that way.
+    <<if $teysaPositiveInteractionSeen == false>>
+        <<change_affection GameManager "characterteysa" 5>>
+    <<endif>>
+-> I'm not really sure
+    {$playerName}: I haven't really thought about it before.
+    Teysa: That's alright.
+    Teysa: I suppose it's not an easy question.
+<<set $teysaPositiveInteractionSeen = true>>
+Teysa: Anyway...
+Teysa: Thank you for sitting with me.
+{$playerName}: Anytime.
+Teysa: I'd like that.
+Teysa: Maybe next time I can show you something I've been working on.
+===
+

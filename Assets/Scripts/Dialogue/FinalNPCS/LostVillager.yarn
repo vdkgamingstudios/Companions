@@ -1,0 +1,160 @@
+﻿
+title: LostVillager
+---
+<<declare $hasChosenName = false>>
+<<declare $playerName = "">>
+<<declare $characterFLName = "">>
+<<declare $toldVillagerAboutTeleporter = false>>
+<<declare $villagerPortalQuestStarted = false>>
+<<declare $villagerPortalQuestComplete = false>>
+
+<<if $hasChosenName == false>>
+    Lost Villager: Finally! I'm not alone anymore.
+    Lost Villager: It's good to see someone else here.
+    Lost Villager: I don't know what happened.
+    Lost Villager: Everything is such a blur.
+    Lost Villager: This place is beautiful, though.
+    Lost Villager: Almost beautiful enough to make me forget how strange everything is.
+    Lost Villager: You seem vaguely familiar.
+    Lost Villager: Have we met before?
+    Lost Villager: What's your name?
+    Lost Villager: Maybe that will help me remember.
+    <<enter_player_name GameManager>>
+    <<set $hasChosenName = true>>
+    {$playerName}: My name is {$playerName}.
+    Lost Villager: Ah, {$playerName}!
+    Lost Villager: That does ring a bell.
+    Lost Villager: I remember someone new arriving in the area.
+    Lost Villager: Someone who wanted to tackle the tower.
+    Lost Villager: It's good to see you again.
+    Lost Villager: Actually, I think you had someone with you when you arrived.
+    Lost Villager: A woman, if I remember correctly.
+    Lost Villager: Do you remember her name?
+    <<enter_character_fl_name GameManager>>
+    {$playerName}: Her name is {$characterFLName}.
+    Lost Villager: {$characterFLName}...
+    Lost Villager: Ah, yes! Now I remember.
+    Lost Villager: You two had only recently arrived.
+    Lost Villager: Hopefully you'll find her soon.
+    Lost Villager: And perhaps the two of you can find a way out of here.
+    Lost Villager: I'd offer to help, but...
+    Lost Villager: My head still feels rather fuzzy.
+    Lost Villager: I think I'll rest here for a while.
+    Lost Villager: Actually, {$playerName}...
+    Lost Villager: Could I ask you for a favour?
+    {$playerName}: What do you need?
+    Lost Villager: We're clearly not where we're supposed to be.
+    Lost Villager: I've been trying to figure out how we might leave, but I haven't had much luck.
+    Lost Villager: Perhaps you could explore the islands and see if there's a way out?
+    -> I'll find us a way out
+        {$playerName}: Alright. I'll see what I can find.
+        Lost Villager: Really?
+        Lost Villager: Thank you!
+        Lost Villager: If you find anything promising, please come back and tell me.
+        <<set $villagerPortalQuestStarted = true>>
+        <<start_quest QuestManager "find_portal">>
+    -> I'll have to come back later
+        {$playerName}: I need to find {$characterFLName} first.
+        Lost Villager: Of course. I understand.
+        Lost Villager: If you change your mind, I'll be here.
+<<else>>
+    <<jump LostVillagerReturn>>
+<<endif>>
+===
+
+title: LostVillagerReturn
+---
+Lost Villager: Ah, {$playerName}!
+Lost Villager: Good to see you again.
+<<if $toldVillagerAboutTeleporter == true>>
+    Lost Villager: I've been thinking about that portal you mentioned.
+    Lost Villager: I really hope it leads somewhere safer.
+<<else>>
+    Lost Villager: Have you discovered anything interesting while exploring?
+<<endif>>
+-> Offer to look for a way out <<if $villagerPortalQuestStarted == false && $villagerPortalQuestComplete == false && $toldVillagerAboutTeleporter == false>>
+    {$playerName}: I've been thinking about what you said.
+    {$playerName}: I'll help find a way out of here.
+    Lost Villager: Really?
+    Lost Villager: That's wonderful!
+    Lost Villager: Please let me know if you find anything.
+    <<set $villagerPortalQuestStarted = true>>
+    <<start_quest QuestManager "find_portal">>
+    <<jump LostVillagerReturn>>
+-> Tell the Villager about the portal <<if $foundTeleporter == true && $toldVillagerAboutTeleporter == false>>
+    {$playerName}: Actually, I think I found a way out of here.
+    Lost Villager: Really?
+    Lost Villager: You found something?
+    {$playerName}: There's a strange portal nearby.
+    {$playerName}: I don't know exactly where it leads, but it might be our way out.
+    Lost Villager: A portal?
+    Lost Villager: That's certainly unexpected!
+    Lost Villager: But if it means we can finally leave this place, I'm willing to give it a try.
+    Lost Villager: Thank you, {$playerName}.
+    Lost Villager: I was beginning to think we'd be stuck here forever.
+    <<set $toldVillagerAboutTeleporter = true>>
+    <<if $villagerPortalQuestStarted == true && $villagerPortalQuestComplete == false>>
+        <<set $villagerPortalQuestComplete = true>>
+        <<complete_quest QuestManager "find_portal">>
+        Lost Villager: You really kept your promise.
+        Lost Villager: I can't tell you how much that means to me.
+    <<endif>>
+    Lost Villager: I'll gather myself and see if I can make my way there.
+    <<jump LostVillagerReturn>>
+-> Ask about the tower and the portal <<if $towerInvestigationStarted == true && $foundTeleporter == true && $spokeToVillagerAboutTower == false>>
+    {$playerName}: There's something else I wanted to ask you.
+    Lost Villager: Oh?
+    Lost Villager: What is it?
+    {$playerName}: I've been investigating what happened around the tower.
+    {$playerName}: Do you remember anything before we arrived here?
+    Lost Villager: The tower...
+    Lost Villager: Now that you mention it...
+    Lost Villager: I remember looking towards it just before everything happened.
+    {$playerName}: What did you see?
+    Lost Villager: There was a strange light coming from the tower.
+    Lost Villager: It was getting brighter and brighter.
+    Lost Villager: Then the ground started shaking.
+    Lost Villager: For a moment, I thought the whole world was falling apart.
+    {$playerName}: Did you see what caused it?
+    Lost Villager: No, unfortunately.
+    Lost Villager: Everything went blurry.
+    Lost Villager: The next thing I knew, I was here.
+    {$playerName}: Do you think the portal might be connected?
+    Lost Villager: It's possible.
+    Lost Villager: I can't say for certain, but...
+    Lost Villager: The light I saw around the tower was similar to the strange glow around that portal.
+    {$playerName}: That could be important.
+    Lost Villager: You think so?
+    {$playerName}: Definitely.
+    {$playerName}: I'm helping someone investigate what happened.
+    Lost Villager: Well, I'm glad I could help!
+    <<set $spokeToVillagerAboutTower = true>>
+    <<set $towerPeopleSpokenTo += 1>>
+    Lost Villager: I hope whoever you're helping can make sense of it.
+    <<jump LostVillagerReturn>>
+-> Ask what he remembers about the tower <<if $towerInvestigationStarted == true && $foundTeleporter == false && $spokeToVillagerAboutTower == false>>
+    {$playerName}: Do you remember anything about the tower?
+    Lost Villager: The tower?
+    Lost Villager: I remember something strange happening, but...
+    Lost Villager: It's all rather fuzzy.
+    Lost Villager: I wish I could tell you more.
+    Lost Villager: Perhaps something around here will help jog my memory.
+    <<jump LostVillagerReturn>>
+-> Ask about his memories again <<if $spokeToVillagerAboutTower == true>>
+    {$playerName}: Have you remembered anything else about the tower?
+    Lost Villager: Unfortunately, no.
+    Lost Villager: Just that strange light and the shaking.
+    Lost Villager: Hopefully the information I gave you was useful.
+    <<jump LostVillagerReturn>>
+-> Ask how he's feeling
+    {$playerName}: How are you holding up?
+    Lost Villager: Better than before, I think.
+    Lost Villager: My head is still a little fuzzy.
+    Lost Villager: But having someone to talk to helps.
+    Lost Villager: It's comforting knowing I'm not the only one stuck here.
+    <<jump LostVillagerReturn>>
+-> Leave
+    {$playerName}: I'll see you around.
+    Lost Villager: Take care, {$playerName}!
+    Lost Villager: And try not to get lost yourself!
+===

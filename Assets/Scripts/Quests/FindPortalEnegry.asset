@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93a265ac88032f14d9b0eca603d11a5e, type: 3}
   m_Name: FindPortalEnegry
   m_EditorClassIdentifier: 
-  questID: find_portal_energy
-  questTitle: Find the Portal Energy Source
-  questDescription: Find the missing energy source for the portal
+  questID: portal_energy
+  questTitle: The Missing Energy
+  questDescription: The mysterious portal is missing an energy source. Explore the
+    surrounding area to find the Teleporter Energy and return to activate the portal.

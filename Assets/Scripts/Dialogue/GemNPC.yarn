@@ -15,11 +15,13 @@ Liliana: Hello, {$playerName}.
         Liliana: I want you to have something in return.
         Liliana: I found this some time ago. Perhaps you'll find someone who would appreciate it.
         <<give_special_gift GameManager>>
+        <<complete_quest QuestManager "find_gem">>
         {$playerName}: Thank you.
     -> Keep the Gem
         {$playerName}: I think I'll hold onto it for now.
         Liliana: Very well. Let me know if you change your mind.
 <<else>>
+<<start_quest QuestManager "find_gem">>
     Liliana: I'm looking for a strange gem.
     Liliana: If you happen to find one, would you bring it to me?
 <<endif>>

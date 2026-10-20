@@ -8,7 +8,6 @@ title: Elenda
 <<declare $elendaPotionGiven = false>>
 <<declare $elendaPositiveInteractionUnlocked = false>>
 <<declare $elendaPositiveInteractionSeen = false>>
-
 <<if $metElenda == false>>
     Elenda: Hmph...
     Elenda: Fragments of ancient magic, scattered across a broken landscape.
@@ -18,6 +17,7 @@ title: Elenda
     Elenda: Apparently, I was.
     Elenda: Do you make a habit of interrupting people while they are working?
     -> Sorry, I didn't mean to interrupt
+        <<change_affection GameManager "characterelenda" 5>>
         {$playerName}: Sorry. I didn't realise you were busy.
         Elenda: At least you possess some manners.
         Elenda: An increasingly rare quality.
@@ -101,28 +101,32 @@ title: ElendaReturn
     -> Not yet
         {$playerName}: Not right now.
         Elenda: Then I suggest you leave me to my research.
-<<elseif $elendaScrollInfoFound == true>>
+<<elseif has_item("ancient_scroll")>>
     Elenda: You're back.
     Elenda: And judging by your expression, you have discovered something.
-    {$playerName}: I found information about the scroll.
-    Elenda: Then speak.
-    Elenda: I have little patience for dramatic pauses.
-    {$playerName}: Someone here has knowledge of an ancient scroll.
-    {$playerName}: It may contain information about the magic affecting these islands.
-    Elenda: Interesting...
-    Elenda: So the rumour was not entirely unfounded.
-    {$playerName}: Does that help?
-    Elenda: Considerably.
-    Elenda: Even knowing where to direct my research is valuable.
-    <<set $elendaScrollQuestComplete = true>>
-    <<complete_quest QuestManager "elenda_scroll">>
-    <<change_affection GameManager "characterelenda" 10>>
-    Elenda: You have done well.
-    Elenda: Better than I anticipated.
-    {$playerName}: Was that a compliment?
-    Elenda: Do not become accustomed to it.
-    Elenda: ...
-    Elenda: Nevertheless, you have my thanks.
+    {$playerName}: I found the scroll you were looking for.
+    Elenda: You actually found it?
+    Elenda: Let me see.
+    -> Give Elenda the Scroll
+        {$playerName}: Here. I thought you might be interested in this.
+        Elenda: Interesting...
+        Elenda: These markings are much older than I anticipated.
+        Elenda: This may contain information about the magic affecting these islands.
+        <<remove_item GameManager "ancient_scroll">>
+        <<set $elendaScrollInfoFound = true>>
+        <<set $elendaScrollQuestComplete = true>>
+        <<complete_quest QuestManager "elenda_scroll">>
+        <<change_affection GameManager "characterelenda" 10>>
+        Elenda: You have done well.
+        Elenda: Better than I anticipated.
+        {$playerName}: Was that a compliment?
+        Elenda: Do not become accustomed to it.
+        Elenda: Nevertheless, you have my thanks.
+        <<jump ElendaPotionConversation>>
+    -> Keep the Scroll
+        {$playerName}: I'd like to examine it a little longer.
+        Elenda: Hmph.
+        Elenda: Very well. But do not keep me waiting indefinitely.
     <<jump ElendaPotionConversation>>
 <<else>>
     Elenda: Have you discovered anything about the scroll?
@@ -142,7 +146,6 @@ title: ElendaReturn
         <<jump ElendaPotionConversation>>
 <<endif>>
 ===
-
 title: ElendaPotionConversation
 ---
 <<if $elendaPotionGiven == true>>
@@ -177,7 +180,7 @@ title: ElendaPotionConversation
             Elenda: How peculiar.
             <<remove_item GameManager "health_potion">>
             <<set $elendaPotionGiven = true>>
-            <<change_affection GameManager "characterelenda" 10>>
+            <<change_affection GameManager "characterelenda" 20>>
             Elenda: Very well.
             Elenda: I accept.
             Elenda: ...
@@ -196,10 +199,9 @@ title: ElendaPotionConversation
             Elenda: ...
             Elenda: Do as you wish.
     <<endif>>
-    -> Leave her to rest
-        {$playerName}: I'll let you get back to your research.
-
-        Elenda: Sensible.
+        -> Leave her to rest
+            {$playerName}: I'll let you get back to your research.
+            Elenda: Sensible.
 <<endif>>
 <<if $elendaScrollQuestComplete == true && $elendaPotionGiven == true>>
     <<set $elendaPositiveInteractionUnlocked = true>>
@@ -245,20 +247,18 @@ title: ElendaRelationship
     Elenda: Bring me evidence, and perhaps we can discuss it further.
     <<jump ElendaRelationship>>
 <<if $elendaPotionGiven == false>>
-    -> Ask about her injury
-        <<jump ElendaPotionConversation>>
+-> Ask about her injury 
+    <<jump ElendaPotionConversation>>
 <<endif>>
 <<if $elendaPositiveInteractionUnlocked == true>>
-    -> Speak with Elenda privately
-        <<jump ElendaPositiveInteraction>>
+-> Speak with Elenda privately
+    <<jump ElendaPositiveInteraction>>
 <<endif>>
 -> Leave
     {$playerName}: I'll leave you to your work.
-
     Elenda: Very well.
     Elenda: Try not to get yourself killed.
 ===
- 
 title: ElendaPositiveInteraction
 ---
 Elenda: Close the door.
@@ -290,7 +290,7 @@ Elenda: Why did you help me?
     Elenda: An unusual answer.
     Elenda: Yet I find myself hoping you mean it.
     <<if $elendaPositiveInteractionSeen == false>>
-        <<change_affection GameManager "characterelenda" 5>>
+        <<change_affection GameManager "characterelenda" 10>>
     <<endif>>
 -> Because I want to understand you
     {$playerName}: Because I want to understand you, not just the Ashen Witch.
@@ -299,7 +299,7 @@ Elenda: Why did you help me?
     Elenda: ...
     Elenda: But perhaps not an unwelcome one.
     <<if $elendaPositiveInteractionSeen == false>>
-        <<change_affection GameManager "characterelenda" 5>>
+        <<change_affection GameManager "characterelenda" 10>>
     <<endif>>
 -> Because your knowledge could help me
     {$playerName}: Because your knowledge might help me find a way out.

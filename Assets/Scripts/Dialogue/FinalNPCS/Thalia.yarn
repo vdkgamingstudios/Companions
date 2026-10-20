@@ -95,7 +95,7 @@ title: ThaliaReturn
         {$playerName}: Maybe later.
         Thalia: Don't take too long.
         Thalia: I'd rather not spend eternity on this floating rock.
-<<elseif $towerPeopleSpokenTo >= 3 && $foundTeleporter == true && $spokeToVillagerAboutTower == true>>
+<<elseif $towerPeopleSpokenTo >= 3 && $spokeToVillagerAboutTower == true>>
     Thalia: There you are.
     Thalia: You've been busy, haven't you?
     {$playerName}: I've spoken to three people about what happened.
@@ -112,7 +112,7 @@ title: ThaliaReturn
     Thalia: A portal?
     Thalia: Now that's interesting.
     {$playerName}: I also went back to speak with the Lost Villager.
-    {$playerName}: He remembered seeing a strange light coming from the tower before everything happened.
+    {$playerName}: He remembered seeing a strange light coming from the tower before it happened.
     Thalia: Huh...
     Thalia: So the tower and that portal might be connected.
     {$playerName}: That's what he thinks.
@@ -124,13 +124,13 @@ title: ThaliaReturn
     Thalia: But for now, you've done what I asked.
     <<set $towerInvestigationComplete = true>>
     <<complete_quest QuestManager "investigate_tower">>
-    <<change_affection GameManager "characterthalia" 10>>
+    <<change_affection GameManager "characterthalia" 15>>
     Thalia: You've earned my trust.
     Thalia: A little, anyway.
     {$playerName}: I'll take that as a compliment.
     Thalia: You should.
     Thalia: I don't hand those out often.
-    Thalia: Besides, someone who can uncover a secret like that might be useful to have around.
+    Thalia: Besides, someone who can uncover a secret like that might be useful around.
     {$playerName}: So we're working together now?
     Thalia: Don't get ahead of yourself.
     Thalia: But I suppose I wouldn't mind having you around.
@@ -189,12 +189,12 @@ title: ThaliaRelationship
     Thalia: Don't let it go to your head.
     <<jump ThaliaRelationship>>
 <<if $thaliaReceivedGem == false && has_item("gem")>>
-    -> Give Thalia a Gem
-        <<jump ThaliaGemGift>>
+-> Give Thalia a Gem
+    <<jump ThaliaGemGift>>
 <<endif>>
 <<if $thaliaPositiveInteractionUnlocked == true>>
-    -> Spend some time with Thalia
-        <<jump ThaliaPositiveInteraction>>
+-> Spend some time with Thalia
+    <<jump ThaliaPositiveInteraction>>
 <<endif>>
 -> Leave
     {$playerName}: I'll see you around, Thalia.
@@ -227,7 +227,7 @@ Thalia: Well, when you put it like that...
     <<remove_item GameManager "gem">>
     <<set $thaliaReceivedGem = true>>
     <<set $thaliaPositiveInteractionUnlocked = true>>
-    <<change_affection GameManager "characterthalia" 15>>
+    <<change_affection GameManager "characterthalia" 20>>
     Thalia: Jokes aside...
     Thalia: Thank you.
     {$playerName}: You're welcome.

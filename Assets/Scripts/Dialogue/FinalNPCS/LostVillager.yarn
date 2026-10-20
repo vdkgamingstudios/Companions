@@ -7,7 +7,6 @@ title: LostVillager
 <<declare $toldVillagerAboutTeleporter = false>>
 <<declare $villagerPortalQuestStarted = false>>
 <<declare $villagerPortalQuestComplete = false>>
-
 <<if $hasChosenName == false>>
     Lost Villager: Finally! I'm not alone anymore.
     Lost Villager: It's good to see someone else here.
@@ -61,7 +60,6 @@ title: LostVillager
     <<jump LostVillagerReturn>>
 <<endif>>
 ===
-
 title: LostVillagerReturn
 ---
 Lost Villager: Ah, {$playerName}!

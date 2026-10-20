@@ -43,6 +43,7 @@ title: Portal
     Portal: The portal appears to be missing an energy source.
     {$playerName}: Maybe I should look around for something that can power it.
     <<set $portalInteracted = true>>
+    <<set $foundTeleporter = true>>
     -> Search for an energy source
         {$playerName}: There must be something nearby that can activate this.
         <<set $portalEnergyQuestStarted = true>>

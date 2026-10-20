@@ -49,7 +49,7 @@ title: Teysa
     Teysa: Maybe I'll tell you sometime.
     {$playerName}: What do you do?
     Teysa: I'm an alchemist!
-    Teysa: I make potions, study unusual materials, and occasionally create something that explodes when it shouldn't.
+    Teysa: I make potions, study unusual materials, and occasionally create exploding items.
     {$playerName}: Occasionally?
     Teysa: Well...
     Teysa: More often than I'd like to admit.
@@ -141,9 +141,11 @@ title: TeysaReturn
         Teysa: ...
         Teysa: That's nice to hear.
         <<if $teysaAdmiredIslands == true>>
+            <<if $teysaAdmiredIslands == true && $teysaAppleQuestComplete == true && get_affection("characterteysa") >= 10>>
             <<set $teysaPositiveInteractionUnlocked = true>>
             Teysa: You know, I remember what you said about the islands earlier.
             Teysa: Maybe we could enjoy the view together again sometime?
+            <<endif>>
         <<endif>>
     -> Keep the Apple
         {$playerName}: Actually, I think I'll hold onto it for now.
@@ -158,24 +160,48 @@ title: TeysaReturn
     Teysa: I'm sure you'll find something eventually.
 <<endif>>
 ===
-
 title: TeysaRelationship
+---
+<<if $teysaAppleQuestComplete == true && $teysaAdmiredIslands == true && get_affection("characterteysa") >= 10>>
+    <<set $teysaPositiveInteractionUnlocked = true>>
+    <<jump TeysaRelationshipUnlocked>>
+<<endif>>
+Teysa: Oh! Hello again, {$playerName}.
+Teysa: Thank you again for bringing me that apple.
+Teysa: I'm feeling much better now.
+-> Ask about her alchemy
+    {$playerName}: How did you become interested in alchemy?
+    Teysa: I've always loved discovering how things work.
+    Teysa: Mixing ingredients, testing theories, creating something new...
+    Teysa: It's exciting!
+    Teysa: Sometimes experiments don't go quite as planned.
+    Teysa: But every mistake teaches me something.
+    <<jump TeysaRelationship>>
+-> Ask about the Child of the Void
+    {$playerName}: You mentioned people call you the Child of the Void.
+    Teysa: It's a name people gave me because of something that happened to my family.
+    Teysa: The effects changed how I look.
+    Teysa: People started treating me differently after that.
+    Teysa: But I try not to let it stop me from doing what I love.
+    <<jump TeysaRelationship>>
+-> Leave
+    {$playerName}: I'll see you around, Teysa.
+    Teysa: Take care!
+===
+title: TeysaRelationshipUnlocked
 ---
 <<if $teysaPositiveInteractionSeen == true>>
     Teysa: Oh! {$playerName}!
     Teysa: I was hoping I'd see you again.
     Teysa: The view is even nicer when there's someone to share it with.
-<<elseif $teysaPositiveInteractionUnlocked == true>>
+<<else>>
     Teysa: Hello, {$playerName}!
     Teysa: I was just thinking about you.
     {$playerName}: Really?
     Teysa: Oh! I mean...
     Teysa: I was thinking about how you helped me.
     Teysa: And how you appreciated the islands too.
-<<else>>
-    Teysa: Oh! Hello again, {$playerName}.
-    Teysa: Thank you again for bringing me that apple.
-    Teysa: I'm feeling much better now.
+    Teysa: Anything else you would like to talk about?
 <<endif>>
 -> Ask about her alchemy
     {$playerName}: How did you become interested in alchemy?
@@ -184,32 +210,22 @@ title: TeysaRelationship
     Teysa: It's exciting!
     Teysa: Sometimes experiments don't go quite as planned.
     Teysa: But every mistake teaches me something.
-    {$playerName}: Sounds like you really enjoy it.
-    Teysa: I do!
-    Teysa: Maybe I'll show you some of my inventions someday.
-    <<jump TeysaRelationship>>
+    <<jump TeysaRelationshipUnlocked>>
 -> Ask about the Child of the Void
     {$playerName}: You mentioned people call you the Child of the Void.
-    Teysa: Oh...
-    Teysa: Yes.
     Teysa: It's a name people gave me because of something that happened to my family.
     Teysa: The effects changed how I look.
     Teysa: People started treating me differently after that.
-    {$playerName}: That must have been difficult.
-    Teysa: It was.
     Teysa: But I try not to let it stop me from doing what I love.
-    Teysa: Maybe one day I'll tell you more about it.
-    <<jump TeysaRelationship>>
-<<if $teysaPositiveInteractionUnlocked == true>>
-    -> Admire the floating islands together
-        <<jump TeysaPositiveInteraction>>
-<<endif>>
-
+    <<jump TeysaRelationshipUnlocked>>
+-> Admire the floating islands together
+    <<jump TeysaPositiveInteraction>>
 -> Leave
     {$playerName}: I'll see you around, Teysa.
     Teysa: Take care!
     Teysa: And don't forget to eat something yourself!
 ===
+
  
 title: TeysaPositiveInteraction
 ---

@@ -35,13 +35,13 @@ public class RelationshipUI : MonoBehaviour
             return;
         }
 
-        NPCRelationship characterOne = RelationshipManager.Instance.GetRelationship("characterone");
+        NPCRelationship characterOne = RelationshipManager.Instance.GetRelationship("characterelenda");
 
-        NPCRelationship characterTwo = RelationshipManager.Instance.GetRelationship("charactertwo");
+        NPCRelationship characterTwo = RelationshipManager.Instance.GetRelationship("characterteysa");
 
-        NPCRelationship characterThree = RelationshipManager.Instance.GetRelationship("characterthree");
+        NPCRelationship characterThree = RelationshipManager.Instance.GetRelationship("characterthalia");
 
-        NPCRelationship characterFour = RelationshipManager.Instance.GetRelationship("characterfour");
+        NPCRelationship characterFour = RelationshipManager.Instance.GetRelationship("characterfl");
 
         if (characterOne != null)
         {

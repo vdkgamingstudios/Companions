@@ -47,7 +47,7 @@ title: FemaleLead
         {$characterFLName}: Thank you.
         {$characterFLName}: I was worried about you too.
         <<set $flReassured = true>>
-        <<change_affection GameManager "characterfl" 5>>
+        <<change_affection GameManager "characterfl" 10>>
     -> You really need to stop getting lost
         {$playerName}: You really need to stop wandering off on your own.
         {$characterFLName}: I know...
@@ -124,7 +124,7 @@ title: FemaleLeadReturn
     <<remove_item GameManager "mana_potion">>
     <<set $flManaQuestComplete = true>>
     <<complete_quest QuestManager "fl_mana_potion">>
-    <<change_affection GameManager "characterfl" 10>>
+    <<change_affection GameManager "characterfl" 15>>
     {$characterFLName}: Thank you so much!
     {$characterFLName}: I can already feel my mana returning.
     {$playerName}: Feeling better?
@@ -246,7 +246,7 @@ title: FemaleLeadSurvivors
     {$characterFLName}: Hehe!
     {$characterFLName}: I feel a little better already.
     <<set $flSurvivorsDiscussed = true>>
-    <<change_affection GameManager "characterfl" 10>>
+    <<change_affection GameManager "characterfl" 15>>
     <<if $flManaQuestComplete == true>>
         <<set $flPositiveInteractionUnlocked = true>>
     <<endif>>

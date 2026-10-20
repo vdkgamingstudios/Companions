@@ -216054,6 +216054,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   femaleLeadNameText: {fileID: 377158858}
+  overheadNameText: {fileID: 941896004}
   dialogueRunner: {fileID: 1071774237}
 --- !u!1 &7131807646908805549
 GameObject:

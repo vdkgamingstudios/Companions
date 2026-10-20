@@ -6,26 +6,31 @@ using Yarn.Unity;
 
 public class FemaleLeadNameUI : MonoBehaviour
 {
-    [Header("Female Lead Name")]
+    [Header("Female Lead Name - Relationships Menu")]
     [SerializeField] private TMP_Text femaleLeadNameText;
+
+    [Header("Female Lead Name - Above NPC")]
+    [SerializeField] private TMP_Text overheadNameText;
 
     [Header("Yarn Dialogue")]
     [SerializeField] private DialogueRunner dialogueRunner;
 
-    private void OnEnable()
+    private string lastName = "";
+
+    private void Start()
+    {
+        RefreshName();
+    }
+
+    private void Update()
     {
         RefreshName();
     }
 
     public void RefreshName()
     {
-        if (femaleLeadNameText == null || dialogueRunner == null)
-        {
-            Debug.LogWarning(
-                "FemaleLeadNameUI: Missing UI or DialogueRunner reference."
-            );
+        if (dialogueRunner == null)
             return;
-        }
 
         string chosenName = "";
 
@@ -36,13 +41,31 @@ public class FemaleLeadNameUI : MonoBehaviour
 
         if (!found || string.IsNullOrWhiteSpace(chosenName))
         {
-            femaleLeadNameText.text = "?";
-            return;
+            chosenName = "?";
         }
 
-        femaleLeadNameText.text = chosenName;
+        // Only update when the name changes
+        if (chosenName == lastName)
+            return;
 
-        if (RelationshipManager.Instance != null)
+        lastName = chosenName;
+
+        // Update Relationships menu
+        if (femaleLeadNameText != null)
+        {
+            femaleLeadNameText.text = chosenName;
+        }
+
+        // Update name above Female Lead NPC
+        if (overheadNameText != null)
+        {
+            overheadNameText.text =
+                chosenName == "?" ? "Female Lead" : chosenName;
+        }
+
+        // Update Relationship Manager
+        if (RelationshipManager.Instance != null &&
+            chosenName != "?")
         {
             RelationshipManager.Instance.SetDisplayName(
                 "characterfl",

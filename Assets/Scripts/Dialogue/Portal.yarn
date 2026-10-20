@@ -6,7 +6,6 @@ title: Portal
 <<declare $portalEnergyQuestStarted = false>>
 <<declare $portalEnergyQuestComplete = false>>
 <<declare $portalActivated = false>>
-
 <<if $portalActivated == true>>
     Portal: The portal hums with a steady flow of energy.
     Portal: Its surface shimmers, revealing a mysterious path beyond.
@@ -15,30 +14,29 @@ title: Portal
     -> Enter the portal
         {$playerName}: Here goes nothing.
         Portal: Teleporting Soon...
+        <<jump PortalEnding>>
     -> Leave it for now
         {$playerName}: I should make sure I'm ready before going through.
-<<elseif $foundTeleporterEnergy == true>>
+<<elseif has_item("portal_energy")>>
     Portal: The mysterious portal begins to glow as you approach.
-    Portal: The Teleporter Energy resonates with the portal.
+    Portal: The Teleporter Energy Core resonates with the portal.
     {$playerName}: Looks like this is what I needed to activate it.
     -> Activate the portal
-    {$playerName}: Let's see if this works.
-    Portal: You place the Teleporter Energy Core into the portal.
-    <<remove_item GameManager "teleporter_energy">>
-    Portal: A powerful light spreads across its surface.
-    Portal: The energy begins flowing through the ancient mechanism.
-    <<set $foundTeleporterEnergy = true>>
-    <<set $portalActivated = true>>
-    Portal: The portal has been activated!
-    <<if $portalEnergyQuestStarted == true && $portalEnergyQuestComplete == false>>
-        <<set $portalEnergyQuestComplete = true>>
-        <<complete_quest QuestManager "portal_energy">>
-    <<endif>>
-    {$playerName}: Finally, a way out of here.
-    Portal: The portal is now ready to use.
-    <<jump PortalEnding>>
+        {$playerName}: Let's see if this works.
+        Portal: You place the Teleporter Energy Core into the portal.
+        <<remove_item GameManager "portal_energy">>
+        Portal: A powerful light spreads across its surface.
+        Portal: The energy begins flowing through the ancient mechanism.
+        <<set $foundTeleporterEnergy = true>>
+        <<set $portalActivated = true>>
+        Portal: The portal has been activated!
+        <<if $portalEnergyQuestStarted == true && $portalEnergyQuestComplete == false>>
+            <<set $portalEnergyQuestComplete = true>>
+            <<complete_quest QuestManager "portal_energy">>
+        <<endif>>
         {$playerName}: Finally, a way out of here.
         Portal: The portal is now ready to use.
+        <<jump PortalEnding>>
     -> Leave it for now
         {$playerName}: I should make sure I'm ready first.
 <<elseif $portalInteracted == false>>
@@ -62,13 +60,11 @@ title: Portal
     Portal: The mysterious portal continues to glow faintly.
     {$playerName}: I still need to find the Teleporter Energy to activate this.
     Portal: Perhaps I should explore the surrounding area.
-    <<if $portalEnergyQuestStarted == false>>
-        -> Search for an energy source
-            {$playerName}: I should find something that can power this portal.
-            <<set $portalEnergyQuestStarted = true>>
-            <<start_quest QuestManager "portal_energy">>
-            Portal: New Quest - The Missing Energy
-    <<endif>>
+    -> Search for an energy source <<if $portalEnergyQuestStarted == false>>
+        {$playerName}: I should find something that can power this portal.
+        <<set $portalEnergyQuestStarted = true>>
+        <<start_quest QuestManager "portal_energy">>
+        Portal: New Quest - The Missing Energy
     -> Leave
         {$playerName}: I'll return once I've found what I need.
 <<endif>>

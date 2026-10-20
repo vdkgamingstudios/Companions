@@ -95,7 +95,7 @@ title: ThaliaReturn
         {$playerName}: Maybe later.
         Thalia: Don't take too long.
         Thalia: I'd rather not spend eternity on this floating rock.
-<<elseif $towerPeopleSpokenTo >= 3 && $spokeToVillagerAboutTower == true>>
+<<elseif $towerPeopleSpokenTo >= 3 && $foundTeleporter == true && $spokeToVillagerAboutTower == true>>
     Thalia: There you are.
     Thalia: You've been busy, haven't you?
     {$playerName}: I've spoken to three people about what happened.
@@ -188,14 +188,10 @@ title: ThaliaRelationship
     {$playerName}: I'll take that as a compliment.
     Thalia: Don't let it go to your head.
     <<jump ThaliaRelationship>>
-<<if $thaliaReceivedGem == false && has_item("gem")>>
--> Give Thalia a Gem
+-> Give Thalia a Gem <<if $thaliaReceivedGem == false && has_item("gem")>>
     <<jump ThaliaGemGift>>
-<<endif>>
-<<if $thaliaPositiveInteractionUnlocked == true>>
--> Spend some time with Thalia
+-> Spend some time with Thalia <<if $thaliaPositiveInteractionUnlocked == true>>
     <<jump ThaliaPositiveInteraction>>
-<<endif>>
 -> Leave
     {$playerName}: I'll see you around, Thalia.
     Thalia: Try not to get into too much trouble.
@@ -226,8 +222,10 @@ Thalia: Well, when you put it like that...
     Thalia: Honestly, you're making my job far too easy.
     <<remove_item GameManager "gem">>
     <<set $thaliaReceivedGem = true>>
-    <<set $thaliaPositiveInteractionUnlocked = true>>
     <<change_affection GameManager "characterthalia" 20>>
+    <<if $towerInvestigationComplete == true && get_affection("characterthalia") >= 20>>
+        <<set $thaliaPositiveInteractionUnlocked = true>>
+    <<endif>>
     Thalia: Jokes aside...
     Thalia: Thank you.
     {$playerName}: You're welcome.

@@ -127,7 +127,6 @@ title: ElendaReturn
         {$playerName}: I'd like to examine it a little longer.
         Elenda: Hmph.
         Elenda: Very well. But do not keep me waiting indefinitely.
-    <<jump ElendaPotionConversation>>
 <<else>>
     Elenda: Have you discovered anything about the scroll?
     -> Not yet
@@ -170,48 +169,36 @@ title: ElendaPotionConversation
     {$playerName}: You mean a Health Potion?
     Elenda: Naturally.
     Elenda: Unfortunately, my supplies were lost when I arrived here.
-    Elenda: But I am perfectly capable of managing without one.
-    <<if has_item("health_potion")>>
-        -> Give Elenda a Health Potion
-            {$playerName}: Here. You can have mine.
-            Elenda: ...
-            Elenda: You would give me a potion without asking for anything in return?
-            {$playerName}: You need it more than I do.
-            Elenda: How peculiar.
-            <<remove_item GameManager "health_potion">>
-            <<set $elendaPotionGiven = true>>
-            <<change_affection GameManager "characterelenda" 20>>
-            Elenda: Very well.
-            Elenda: I accept.
-            Elenda: ...
-            Elenda: Thank you.
-            {$playerName}: You're welcome.
-            Elenda: Do not misunderstand.
-            Elenda: This does not mean I suddenly require your assistance with everything.
-            {$playerName}: Of course not.
-            Elenda: ...
-            Elenda: Still, your kindness will not be forgotten.
-    <<else>>
-        -> I'll find you a Health Potion
-            {$playerName}: I'll see if I can find something to help.
-            Elenda: I did not ask you to do that.
-            {$playerName}: I know.
-            Elenda: ...
-            Elenda: Do as you wish.
-    <<endif>>
-        -> Leave her to rest
-            {$playerName}: I'll let you get back to your research.
-            Elenda: Sensible.
-<<endif>>
-<<if $elendaScrollQuestComplete == true && $elendaPotionGiven == true>>
-    <<set $elendaPositiveInteractionUnlocked = true>>
-    Elenda: Before you go...
-    Elenda: There is something I would like to discuss with you.
-    Elenda: When you have the time.
+    -> Give Elenda a Health Potion <<if has_item("health_potion")>>
+        {$playerName}: Here. You can have mine.
+        Elenda: You would give me a potion without asking for anything in return?
+        {$playerName}: You need it more than I do.
+        <<remove_item GameManager "health_potion">>
+        <<set $elendaPotionGiven = true>>
+        <<change_affection GameManager "characterelenda" 20>>
+        Elenda: Very well. I accept.
+        Elenda: Thank you.
+        <<if $elendaScrollQuestComplete == true>>
+            <<set $elendaPositiveInteractionUnlocked = true>>
+            Elenda: Before you go...
+            Elenda: There is something I would like to discuss with you.
+        <<endif>>
+    -> I'll find you a Health Potion <<if not has_item("health_potion")>>
+        {$playerName}: I'll see if I can find something to help.
+        Elenda: I did not ask you to do that.
+        {$playerName}: I know.
+        Elenda: Do as you wish.
+    -> Leave her to rest
+        {$playerName}: I'll let you get back to your research.
+        Elenda: Sensible.
 <<endif>>
 ===
+
 title: ElendaRelationship
 ---
+<<if $elendaScrollQuestComplete == true && $elendaPotionGiven == true>>
+    <<set $elendaPositiveInteractionUnlocked = true>>
+<<endif>>
 <<if $elendaPositiveInteractionSeen == true>>
     Elenda: Ah. You've returned.
     Elenda: I was reviewing my research notes.
@@ -246,14 +233,10 @@ title: ElendaRelationship
     Elenda: But I would need to examine the curse before making promises.
     Elenda: Bring me evidence, and perhaps we can discuss it further.
     <<jump ElendaRelationship>>
-<<if $elendaPotionGiven == false>>
--> Ask about her injury 
+-> Ask about her injury <<if $elendaPotionGiven == false>>
     <<jump ElendaPotionConversation>>
-<<endif>>
-<<if $elendaPositiveInteractionUnlocked == true>>
--> Speak with Elenda privately
+-> Speak with Elenda privately <<if $elendaPositiveInteractionUnlocked == true>>
     <<jump ElendaPositiveInteraction>>
-<<endif>>
 -> Leave
     {$playerName}: I'll leave you to your work.
     Elenda: Very well.
@@ -308,7 +291,8 @@ Elenda: Why did you help me?
 <<set $elendaPositiveInteractionSeen = true>>
 Elenda: There is something else.
 {$playerName}: What is it?
-Elenda: If you intend to continue exploring these islands, you will need more than a sword and blind determination.
+Elenda: If you intend to continue exploring these islands,
+Elenda: you will need more than a sword and blind determination.
 Elenda: I may be willing to teach you a few things.
 {$playerName}: You'd teach me magic?
 Elenda: Perhaps.

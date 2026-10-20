@@ -22,15 +22,21 @@ title: Portal
     Portal: The Teleporter Energy resonates with the portal.
     {$playerName}: Looks like this is what I needed to activate it.
     -> Activate the portal
-        {$playerName}: Let's see if this works.
-        Portal: You place the Teleporter Energy into the portal.
-        Portal: A powerful light spreads across its surface.
-        Portal: The portal has been activated!
-        <<set $portalActivated = true>>
-        <<if $portalEnergyQuestStarted == true && $portalEnergyQuestComplete == false>>
-            <<set $portalEnergyQuestComplete = true>>
-            <<complete_quest QuestManager "portal_energy">>
-        <<endif>>
+    {$playerName}: Let's see if this works.
+    Portal: You place the Teleporter Energy Core into the portal.
+    <<remove_item GameManager "teleporter_energy">>
+    Portal: A powerful light spreads across its surface.
+    Portal: The energy begins flowing through the ancient mechanism.
+    <<set $foundTeleporterEnergy = true>>
+    <<set $portalActivated = true>>
+    Portal: The portal has been activated!
+    <<if $portalEnergyQuestStarted == true && $portalEnergyQuestComplete == false>>
+        <<set $portalEnergyQuestComplete = true>>
+        <<complete_quest QuestManager "portal_energy">>
+    <<endif>>
+    {$playerName}: Finally, a way out of here.
+    Portal: The portal is now ready to use.
+    <<jump PortalEnding>>
         {$playerName}: Finally, a way out of here.
         Portal: The portal is now ready to use.
     -> Leave it for now
@@ -66,4 +72,15 @@ title: Portal
     -> Leave
         {$playerName}: I'll return once I've found what I need.
 <<endif>>
+===
+title: PortalEnding
+---
+Portal: Energy restoration complete.
+Portal: The gateway has been successfully activated.
+{$playerName}: I actually did it...
+{$playerName}: We finally have a way out.
+Portal: Your journey through these islands has reached its conclusion.
+Portal: Thank you for playing COTV!
+Portal: You have reached the end of the prototype.
+Portal: Your journey may be over for now, but the story has only just begun.
 ===

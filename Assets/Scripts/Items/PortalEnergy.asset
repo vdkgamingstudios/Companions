@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PortalEnergy
   m_EditorClassIdentifier: 
   itemID: PortalEnergy
-  displayName: portal_energy
+  displayName: teleporter_energy
   icon: {fileID: 21300000, guid: d3c3d4081c9859047ab3f0748920e344, type: 3}
   description: The energy power source for the portal.
   canBuy: 0
